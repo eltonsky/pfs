@@ -1,0 +1,16 @@
+1355010157 DEBUG sub1 : Received storm warning
+1355010157 INFO sub1 : Closing all hatches
+1355010157 DEBUG sub1.sub2 : Hiding solar panels
+1355010157 ERROR sub1.sub2 : Solar panels are blocked
+1355010157 DEBUG sub1.sub2 : Applying protective shield
+1355010157 WARN sub1.sub2 : Unfolding protective shield
+1355010157 INFO sub1.sub2 : Solar panels are shielded
+1355010157 INFO sub1 : All hatches closed
+1355013795 DEBUG sub1 : Received storm warning
+1355013795 INFO sub1 : Closing all hatches
+1355013795 DEBUG sub1.sub2 : Hiding solar panels
+1355013795 ERROR sub1.sub2 : Solar panels are blocked
+1355013795 DEBUG sub1.sub2 : Applying protective shield
+1355013795 WARN sub1.sub2 : Unfolding protective shield
+1355013795 INFO sub1.sub2 : Solar panels are shielded
+1355013795 INFO sub1 : All hatches closed

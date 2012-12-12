@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="include/Config.h" open="1" top="0" tabpos="3">
+		<Cursor position="284" topLine="0" />
+	</File>
+	<File name="include/Log.h" open="1" top="0" tabpos="4">
+		<Cursor position="793" topLine="0" />
+	</File>
+	<File name="include/tinyxml2.h" open="0" top="0" tabpos="0">
+		<Cursor position="31679" topLine="1092" />
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="509" topLine="0" />
+	</File>
+	<File name="src/Config.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="406" topLine="0" />
+	</File>
+	<File name="src/Log.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="240" topLine="18" />
+	</File>
+	<File name="src/tinyxml2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="42258" topLine="750" />
+	</File>
+</CodeBlocks_layout_file>
