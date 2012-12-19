@@ -1,9 +1,10 @@
 
 #include "Log.h"
 #include "tinyxml2.h"
-//#include "INode.h"
 #include "INodeDirectory.h"
+#include "INodeFile.h"
 #include <stddef.h>
+#include "FSImage.h"
 using namespace tinyxml2;
 
 int main(int argc, char** argv) {
@@ -42,10 +43,14 @@ int main(int argc, char** argv) {
 
     //start head node
 
+    FSImage fsImage("/home/eltonsky/cpp/pfs/image/fsImage.0");
+
+    fsImage.loadImage();
     //start 2nd head node
 
     //start data nodes
 
+//TODO: change INode.children to use map for search.
 
 
 	return 0;

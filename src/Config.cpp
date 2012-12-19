@@ -7,7 +7,7 @@ Config::Config()
     //ctor
 }
 
-Config::Config(char* filename){
+Config::Config(const char* filename){
     if (doc.LoadFile(filename) != XML_SUCCESS){
        throw "Fail to load config file!";
     }

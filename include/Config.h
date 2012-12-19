@@ -13,7 +13,7 @@ class Config
     public:
         Config();
         virtual ~Config();
-        Config(char* filename);
+        Config(const char* filename);
 
         const char* get(string names);
         const char* get(string names, char* attr);

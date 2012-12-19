@@ -1,15 +1,15 @@
 # depslib dependency file v1.0
-1355297908 source:/home/eltonsky/cpp/pfs/main.cpp
+1355560845 source:/home/eltonsky/cpp/pfs/main.cpp
 	"Log.h"
 	"tinyxml2.h"
-	"INode.h"
 	"INodeDirectory.h"
+	"INodeFile.h"
 	<stddef.h>
 
 1355015935 source:/home/eltonsky/cpp/pfs/src/Log.cpp
 	"Log.h"
 
-1355045378 source:/home/eltonsky/cpp/pfs/src/Config.cpp
+1355559949 source:/home/eltonsky/cpp/pfs/src/Config.cpp
 	"Config.h"
 
 1355027151 source:/home/eltonsky/cpp/pfs/src/tinyxml2.cpp
@@ -18,7 +18,7 @@
 	<stddef.h>
 	<cstddef>
 
-1355297270 source:/home/eltonsky/cpp/pfs/src/INode.cpp
+1355559041 source:/home/eltonsky/cpp/pfs/src/INode.cpp
 	"INode.h"
 
 1355297762 source:/home/eltonsky/cpp/pfs/src/INodeDirectory.cpp
@@ -26,4 +26,13 @@
 
 1355293476 source:/home/eltonsky/cpp/pfs/src/INodeFile.cpp
 	"INodeFile.h"
+
+1355557290 source:/home/eltonsky/cpp/pfs/src/Block.cpp
+	"Block.h"
+
+1355554246 source:/home/eltonsky/cpp/pfs/src/FSEditLog.cpp
+	"FSEditLog.h"
+
+1355554228 source:/home/eltonsky/cpp/pfs/src/FSNameSystem.cpp
+	"FSNameSystem.h"
 

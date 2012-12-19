@@ -37,12 +37,32 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Block.h" />
 		<Unit filename="include/Config.h" />
+		<Unit filename="include/DataNode.h" />
+		<Unit filename="include/FSEditLog.h" />
+		<Unit filename="include/FSImage.h" />
+		<Unit filename="include/FSNameSystem.h" />
+		<Unit filename="include/INode.h" />
+		<Unit filename="include/INodeDirectory.h" />
+		<Unit filename="include/INodeFile.h" />
+		<Unit filename="include/INodeFileUnderConstruction.h" />
 		<Unit filename="include/Log.h" />
+		<Unit filename="include/Permission.h" />
 		<Unit filename="include/tinyxml2.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Block.cpp" />
 		<Unit filename="src/Config.cpp" />
+		<Unit filename="src/DataNode.cpp" />
+		<Unit filename="src/FSEditLog.cpp" />
+		<Unit filename="src/FSImage.cpp" />
+		<Unit filename="src/FSNameSystem.cpp" />
+		<Unit filename="src/INode.cpp" />
+		<Unit filename="src/INodeDirectory.cpp" />
+		<Unit filename="src/INodeFile.cpp" />
+		<Unit filename="src/INodeFileUnderConstruction.cpp" />
 		<Unit filename="src/Log.cpp" />
+		<Unit filename="src/Permission.cpp" />
 		<Unit filename="src/tinyxml2.cpp" />
 		<Extensions>
 			<code_completion />
