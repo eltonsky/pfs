@@ -2,6 +2,8 @@
 #include "tinyxml2.h"
 #include <boost/algorithm/string.hpp>
 #include <vector>
+#include "Log.h"
+
 using namespace std;
 using namespace tinyxml2;
 
@@ -13,15 +15,18 @@ class Config
     public:
         Config();
         virtual ~Config();
-        Config(const char* filename);
 
-        const char* get(string names);
-        const char* get(string names, char* attr);
+        static void load(vector<string> files);
+        static void load(string file);
+
+        static const char* get(string names);
+        static const char* get(string names, char* attr);
+
     protected:
+        static vector<XMLDocument*> _docs;
 
     private:
-        XMLElement* getElement(string names);
-        XMLDocument doc;
+        static XMLElement* _getElement(string names);
 };
 
 #endif // CONFIG_H

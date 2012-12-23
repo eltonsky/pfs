@@ -3,6 +3,7 @@
 void Log::init(string confFile)
 {
     string initFileName = confFile;
+
 	log4cpp::PropertyConfigurator::configure(initFileName);
 }
 

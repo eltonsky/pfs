@@ -20,13 +20,20 @@ class INode
         int getBlockNum();
         short getReplication();
         long getBlockSize();
+        long getModTime();
+        long getAccessTime();
+        Permission* getPerm();
+
         void setModTime(long modTime);
 
         void readFileds(ifstream*);
+        void setPermission(Permission*);
 
-        long nsCount; //namespace consumed
-        long dsCount; //diskspace consumed
+        long nsQuota; //max namespace allowed
+        long dsQuota; //max diskspace allowed
 
+        virtual bool isDirectory();
+        virtual bool isFile();
     protected:
         long _modTime;
         long _accessTime;
@@ -35,7 +42,7 @@ class INode
         long _blockSize;
         int _numBlocks;
 
-        Permission perm;
+        Permission* _perm;
 
     private:
 

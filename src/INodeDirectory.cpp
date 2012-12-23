@@ -3,7 +3,7 @@ using namespace std;
 
 INodeDirectory::INodeDirectory(string path) : INode(path)
 {
-    _parent = 0L;
+    _parent =0L;
 }
 
 INodeDirectory::~INodeDirectory()
@@ -32,8 +32,8 @@ INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
 
     iter = _children.find(name);
 
-    // if travel to the end and the last elmt is not, did not find.
-    if (iter == _children.end() && name != _children.end()->first)
+    // if travel out of the end, did not find.
+    if (iter == _children.end())
         _children.insert(_children.begin(), pair<string,INode*>(child->getPath(),child));
     else
         return 0L;
@@ -43,13 +43,21 @@ INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
     return child;
 }
 
+bool INodeDirectory::isDirectory(){
+    return true;
+}
+
+
+bool INodeDirectory::isFile(){
+    return false;
+}
 
 void INodeDirectory::setParent(INode* parent) {
     _parent = parent;
 }
 
 
-map<string, INode*> INodeDirectory::getChildren() {
-    return _children;
+map<string, INode*>* INodeDirectory::getChildren() {
+    return &_children;
 }
 

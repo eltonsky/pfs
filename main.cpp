@@ -1,10 +1,11 @@
-
 #include "Log.h"
 #include "tinyxml2.h"
 #include "INodeDirectory.h"
 #include "INodeFile.h"
 #include <stddef.h>
 #include "FSImage.h"
+#include "FSNameSystem.h"
+
 using namespace tinyxml2;
 
 int main(int argc, char** argv) {
@@ -33,19 +34,27 @@ int main(int argc, char** argv) {
 
     //init:
     //load config
-    Config* conf = new Config("/home/eltonsky/cpp/pfs/conf/pfs_base.cfg");
-    const char* logConf = conf->get("pfs,log_conf");
+    Config::load(string("/home/eltonsky/cpp/pfs/conf/pfs_base.cfg"));
+    const char* logConf = Config::get("pfs,log_conf");
 
-    cout<<"configure file for log is :"<<logConf<<endl;
+    cout<<"configure file for log is :"<<logConf<<", "<<Config::get("pfs,imgFile")<<endl;
 
     // log
     Log::init(logConf);
 
     //start head node
 
-    FSImage fsImage("/home/eltonsky/cpp/pfs/image/fsImage.0");
+    FSNameSystem fsnamesys;
 
-    fsImage.loadImage();
+    fsnamesys.saveNameSpace();
+
+    fsnamesys.loadNameSpace();
+
+//    fsnamesys.loadNameSpace();
+
+    //FSImage fsImage("/home/eltonsky/cpp/pfs/image/fsImage.0");
+
+    //fsImage.loadImage();
     //start 2nd head node
 
     //start data nodes

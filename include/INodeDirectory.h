@@ -13,9 +13,12 @@ class INodeDirectory : public INode
         INodeDirectory(string);
         virtual ~INodeDirectory();
 
-        map<string, INode*> getChildren();
+        map<string, INode*>* getChildren();
         INode* addChild(INode*, bool);
         void setParent(INode* parent);
+
+        bool isDirectory();
+        bool isFile();
     protected:
         INode* _parent; // must be a INodeDirectory
         map<string,INode*> _children;
