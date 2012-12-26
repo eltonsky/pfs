@@ -28,6 +28,11 @@ INode::INode(string path): INode(){
     _path = path;
 }
 
+/*
+*/
+void INode::write(ofstream* ofs) {
+}
+
 
 void INode::readFileds(ifstream* ifs) {
 
