@@ -17,11 +17,6 @@ INode::INode()
 
 //file
 INode::INode(string path, short replication, long blockSize, int numBlocks): INode(){
-//    _modTime = 0;
-//    _accessTime = 0;
-//    nsQuota = 0;
-//    dsQuota = 0;
-
     _path = path;
     _replication = replication;
     _blockSize = blockSize;
@@ -30,34 +25,29 @@ INode::INode(string path, short replication, long blockSize, int numBlocks): INo
 
 //dir
 INode::INode(string path): INode(){
-//    _modTime = 0;
-//    _accessTime = 0;
-//    _replication = 0;
-//    _blockSize = 0;
-//    _numBlocks = 0;
-//    nsQuota = 0;
-//    dsQuota = 0;
-
     _path = path;
 }
 
 
 void INode::readFileds(ifstream* ifs) {
-    *ifs>>_path;
 
-    *ifs>>_replication;
+    _path = Writable::readString(ifs);
 
-    *ifs>>_modTime;
+    ifs->read((char*)&_replication, sizeof(_replication));
 
-    *ifs>>_accessTime;
+    ifs->read((char*)&_modTime, sizeof(_modTime));
 
-    *ifs>>_blockSize;
+    ifs->read((char*)&_accessTime, sizeof(_accessTime));
 
-    *ifs>>_numBlocks;
+    ifs->read((char*)&_blockSize, sizeof(_blockSize));
 
-    *ifs>>nsQuota;
+    ifs->read((char*)&_numBlocks, sizeof(_numBlocks));
 
-    *ifs>>dsQuota;
+    if (_numBlocks == 0) {
+        ifs->read((char*)&nsQuota, sizeof(nsQuota));
+
+        ifs->read((char*)&dsQuota, sizeof(dsQuota));
+    }
 }
 
 void INode::setPermission(Permission* perm) {

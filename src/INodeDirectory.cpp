@@ -6,6 +6,12 @@ INodeDirectory::INodeDirectory(string path) : INode(path)
     _parent =0L;
 }
 
+INodeDirectory::INodeDirectory(INode* node) :
+    INode(node->getPath(), node->getReplication(), node->getBlockSize(), node->getBlockNum())
+{
+    _parent =0L;
+}
+
 INodeDirectory::~INodeDirectory()
 {
     //dtor
@@ -28,13 +34,14 @@ INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
     if(last_index_of_slash == -1)
         name = child->getPath();
     else
-        name = child->getPath().substr(last_index_of_slash);
+        name = child->getPath().substr(last_index_of_slash+1);
 
     iter = _children.find(name);
 
     // if travel out of the end, did not find.
-    if (iter == _children.end())
-        _children.insert(_children.begin(), pair<string,INode*>(child->getPath(),child));
+    if (iter == _children.end()) {
+        _children.insert(_children.begin(), pair<string,INode*>(name,child));
+    }
     else
         return 0L;
 
