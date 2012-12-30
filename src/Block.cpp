@@ -19,21 +19,21 @@ Block::~Block()
     //dtor
 }
 
-void Block::readFileds(ifstream* ifs) {
-    ifs->read((char*)&_blockID, sizeof(_blockID));
+void Block::readFileds(istream* is) {
+    is->read((char*)&_blockID, sizeof(_blockID));
 
-    ifs->read((char*)&_blockLength, sizeof(_blockLength));
+    is->read((char*)&_blockLength, sizeof(_blockLength));
 
-    ifs->read((char*)&_genStamp, sizeof(_genStamp));
+    is->read((char*)&_genStamp, sizeof(_genStamp));
 }
 
 
-void Block::write(ofstream* ofs) {
-    ofs->write((char*)&_blockID, sizeof(_blockID));
+void Block::write(ostream* os) {
+    os->write((char*)&_blockID, sizeof(_blockID));
 
-    ofs->write((char*)&_blockLength, sizeof(_blockLength));
+    os->write((char*)&_blockLength, sizeof(_blockLength));
 
-    ofs->write((char*)&_genStamp, sizeof(_genStamp));
+    os->write((char*)&_genStamp, sizeof(_genStamp));
 }
 
 

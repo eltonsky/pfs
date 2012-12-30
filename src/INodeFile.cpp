@@ -1,6 +1,6 @@
 #include "INodeFile.h"
 
-INodeFile::INodeFile()
+INodeFile::INodeFile() : INode()
 {
 
 }

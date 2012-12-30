@@ -36,12 +36,26 @@ void Config::load(vector<string> files){
 }
 
 const char* Config::get(string names) {
-    return _getElement(names)->GetText();
+    XMLElement* elmt = _getElement(names);
+
+    if(elmt==NULL){
+        Log::write(WARN, "can not find elmnt in " + names+ ". is there white space around it?");
+        return string().c_str();
+    }
+
+    return elmt->GetText();
 }
 
 
 const char* Config::get(string names, char* attr){
-    return _getElement(names)-> Attribute(attr);
+    XMLElement* elmt = _getElement(names);
+
+    if(elmt==NULL){
+        Log::write(WARN, "can not find elmnt in " + names+ ". is there white space around it?");
+        return string().c_str();
+    }
+
+    return elmt->Attribute(attr);
 }
 
 
@@ -62,6 +76,11 @@ XMLElement* Config::_getElement(string names){
         if(fields.size() > 1)
             for(size_t i = 1; i<fields.size();i++) {
                 elmt = elmt->FirstChildElement((char*)fields[i].c_str());
+
+                if (elmt == NULL) {
+                    Log::write(WARN, "can not find elmnt '" + fields[i]+ "' in " + names+ ". is there white space around it?");
+                    // let the exception thrown.
+                }
             }
     }
 

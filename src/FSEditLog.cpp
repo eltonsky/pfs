@@ -1,28 +1,43 @@
 #include "FSEditLog.h"
+
 using namespace std;
 
-FSEditLog::FSEditLog(int logVersion)
+
+FSEditLog::FSEditLog(FSImage* fsimage)
 {
     sem_init(&_sem_log, 0, 1);
     _isSyncRunning = false;
-    _version = logVersion;
+    _fsImage = fsimage;
+    _version = _fsImage->getVersion();
 
     m_lock1 = boost::mutex::scoped_lock(m_log1);
 }
 
-FSEditLog::FSEditLog(string file, int logVersion): FSEditLog(logVersion) {
-    _editStream = new ofstream(file);
-    _editStream->write((char*)&_version, sizeof(_version));
-}
 
 FSEditLog::~FSEditLog()
 {
     sem_destroy(&_sem_log);
 }
 
-void FSEditLog::close(){
-    if(_editStream->is_open())
-        _editStream->close();
+
+void FSEditLog::open(OpenMode mode) {
+    string file = Config::get("pfs,editLog,path");
+
+    try{
+
+        if(mode == IN) {
+            _editIStream = new ifstream(file);
+        } else {
+            _editOStream = new ofstream(file);
+            _editOStream->write((char*)&_version, sizeof(_version));
+        }
+    } catch (exception& e){
+        Log::write(ERROR, e.what());
+        exit(EXIT_FAILURE);
+    } catch (char* e) {
+        Log::write(ERROR, e);
+        throw(e);
+    }
 }
 
 /*
@@ -37,7 +52,7 @@ void FSEditLog::logSync() {
 
     _isSyncRunning = true;
 
-    _editStream->flush();
+    _editOStream->flush();
 
     _isSyncRunning = false;
 
@@ -50,43 +65,135 @@ void FSEditLog::logSync() {
 void FSEditLog::logEdit(stringstream* ss) {
     sem_wait(&_sem_log);
 
-    if(_editStream->good()) {
-        _editStream->write(ss->str().c_str(), ss->str().size()+1);
+    if(_editOStream->good()) {
+        _editOStream->write(ss->str().c_str(), ss->str().size()+1);
     }
 
     sem_post(&_sem_log);
 }
 
+void FSEditLog::close(){
+    if(_editOStream->is_open())
+        _editOStream->close();
+}
+
+
+/*
+load edit log from disk.
+*/
+void FSEditLog::loadEdits() {
+
+    int numEdits = 0;
+    int logVersion = 0;
+    string clientName;
+    string clientMachine;
+    string path;
+    int numOpAdd = 0, numOpClose = 0, numOpDelete = 0,
+        numOpRename = 0, numOpSetRepl = 0, numOpMkDir = 0,
+        numOpSetPerm = 0, numOpSetOwner = 0, numOpSetGenStamp = 0,
+        numOpTimes = 0, numOpGetDelegationToken = 0,
+        numOpRenewDelegationToken = 0, numOpCancelDelegationToken = 0,
+        numOpUpdateMasterKey = 0, numOpOther = 0;
+
+    long startTime = time(NULL);
+
+    open(IN);
+
+    bool avail = true;
+    try{
+        _editIStream->read((char*)&logVersion, sizeof(logVersion));
+    }catch(...){
+        avail = false;
+        Log::write(ERROR,"fail to get logVersion.");
+    }
+
+    assert(avail);
+
+    while(true){
+        long timestamp = 0;
+        long mtime = 0;
+        long atime = 0;
+        long blockSize = 0;
+        short opcode = -1;
+
+        try{
+
+        }catch(exception& e){
+            if(_editIStream.is_open())
+                _editIStream.close();
+
+            Log::write(ERROR, e.what());
+        }catch(char* e){
+            if(_editIStream.is_open())
+                _editIStream.close();
+
+            Log::write(ERROR, e);
+        }
+
+    }
+
+    if(_editIStream.is_open())
+                _editIStream.close();
+
+    long elapse = time(NULL) - startTime;
+    Log::write(INFO, "FSEditLog::loadEdits takes " + boost::lexical_cast<string>(elapse)+" secs");
+}
+
+
+/*log OPs*/
+
 void FSEditLog::logOpenFile(string path, INodeFileUnderConstruction* newNode) {
     stringstream ss;
 
+    //op code
     ss.write((char*)&OP_ADD, sizeof(OP_ADD));
 
-    Writable::writeString(&ss, newNode->getPath());
+    // INode
+    newNode->write(&ss);
 
-    short rep = newNode->getReplication();
-    ss.write((char*)&rep, sizeof(rep));
-
-    long m_time = newNode->getModTime();
-    ss.write((char*)&m_time, sizeof(m_time));
-
-    long blkSize = newNode->getBlockSize();
-    ss.write((char*)&blkSize, sizeof(blkSize));
-
-    int numBlocks = newNode->getBlockNum();
-    ss.write((char*)&numBlocks, sizeof(numBlocks));
-
-    //write blks
+    //blks
+    vector<Block*> blks = newNode->getBlocks();
+    for(vector<Block*>::iterator iter = blks.begin(); iter != blks.end(); iter++){
+        (*iter)->write(&ss);
+    }
 
     //write perm
+    newNode->getPerm()->write(&ss);
 
     //write client name /machine
+    ss.write(newNode->getClientName().c_str(), sizeof(newNode->getClientName().c_str()));
+    ss.write(newNode->getClientMachine().c_str(), sizeof(newNode->getClientMachine().c_str()));
 
     //locs
+    //version 1.0.4 doesn't write locs to edit log.
 
     delete ss;
 }
 
+
+void FSEditLog::logCloseFile(string path, INodeFile* newNode) {
+    stringstream ss;
+
+    //op code
+    ss.write((char*)&OP_CLOSE, sizeof(OP_CLOSE));
+
+    // INode
+    newNode->write(&ss);
+
+    //blks
+    vector<Block*> blks = newNode->getBlocks();
+    for(vector<Block*>::iterator iter = blks.begin(); iter != blks.end(); iter++){
+        (*iter)->write(&ss);
+    }
+
+    //write perm
+    newNode->getPerm()->write(&ss);
+
+    //locs
+    //version 1.0.4 doesn't write locs to edit log.
+
+    delete ss;
+}
 
 
 

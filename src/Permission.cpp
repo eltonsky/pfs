@@ -12,20 +12,20 @@ Permission::~Permission()
     //dtor
 }
 
-void Permission::readFileds(ifstream* ifs) {
-    _userName = Writable::readString(ifs);
+void Permission::readFileds(istream* is) {
+    _userName = Writable::readString(is);
 
-    _groupName = Writable::readString(ifs);
+    _groupName = Writable::readString(is);
 
-    ifs->read((char*)&_perm, sizeof(_perm));
+    is->read((char*)&_perm, sizeof(_perm));
 }
 
 
-void Permission::write(ofstream* ofs) {
+void Permission::write(ostream* os) {
 
-    Writable::writeString(ofs, _userName);
+    Writable::writeString(os, _userName);
 
-    Writable::writeString(ofs, _groupName);
+    Writable::writeString(os, _groupName);
 
-    ofs->write((char*)&_perm, sizeof(_perm));
+    os->write((char*)&_perm, sizeof(_perm));
 }

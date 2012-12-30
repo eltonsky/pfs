@@ -30,28 +30,37 @@ INode::INode(string path): INode(){
 
 /*
 */
-void INode::write(ofstream* ofs) {
+void INode::write(ostream* os) {
+    Writable::writeString(os, _path);
+
+    os->write((char*)&_replication, sizeof(_replication));
+
+    os->write((char*)&_modTime, sizeof(_modTime));
+
+    os->write((char*)&_blockSize, sizeof(_blockSize));
+
+    os->write((char*)&_numBlocks, sizeof(_numBlocks));
 }
 
 
-void INode::readFileds(ifstream* ifs) {
+void INode::readFileds(istream* is) {
 
-    _path = Writable::readString(ifs);
+    _path = Writable::readString(is);
 
-    ifs->read((char*)&_replication, sizeof(_replication));
+    is->read((char*)&_replication, sizeof(_replication));
 
-    ifs->read((char*)&_modTime, sizeof(_modTime));
+    is->read((char*)&_modTime, sizeof(_modTime));
 
-    ifs->read((char*)&_accessTime, sizeof(_accessTime));
+    is->read((char*)&_accessTime, sizeof(_accessTime));
 
-    ifs->read((char*)&_blockSize, sizeof(_blockSize));
+    is->read((char*)&_blockSize, sizeof(_blockSize));
 
-    ifs->read((char*)&_numBlocks, sizeof(_numBlocks));
+    is->read((char*)&_numBlocks, sizeof(_numBlocks));
 
     if (_numBlocks == 0) {
-        ifs->read((char*)&nsQuota, sizeof(nsQuota));
+        is->read((char*)&nsQuota, sizeof(nsQuota));
 
-        ifs->read((char*)&dsQuota, sizeof(dsQuota));
+        is->read((char*)&dsQuota, sizeof(dsQuota));
     }
 }
 

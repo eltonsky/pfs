@@ -36,10 +36,10 @@ string Writable::readString(istream* ifs) {
 }
 
 
-void Writable::write(ofstream* ofs) {
+void Writable::write(ostream* os) {
 
 }
 
-void Writable::readFields(ifstream* ifs) {
+void Writable::readFields(istream* is) {
 
 }

@@ -7,7 +7,7 @@ using namespace boost;
 
 FSImage::FSImage()
 {
-    _imgVersion = -1;
+    _imgVersion = atoi(Config::get("pfs,imgFile,version"));
     _namespaceId = -1;
     _numFiles = 1; // _root always exists
     _genStamp = -1;
