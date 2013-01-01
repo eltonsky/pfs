@@ -40,6 +40,7 @@ void FSEditLog::open(OpenMode mode) {
     }
 }
 
+
 /*
 flush.
 */
@@ -72,6 +73,8 @@ void FSEditLog::logEdit(stringstream* ss) {
     sem_post(&_sem_log);
 }
 
+
+//close edit log output stream
 void FSEditLog::close(){
     if(_editOStream->is_open())
         _editOStream->close();
@@ -85,15 +88,18 @@ void FSEditLog::loadEdits() {
 
     int numEdits = 0;
     int logVersion = 0;
+    Permission* perm = 0L;
+
     string clientName;
     string clientMachine;
-    string path;
-    int numOpAdd = 0, numOpClose = 0, numOpDelete = 0,
-        numOpRename = 0, numOpSetRepl = 0, numOpMkDir = 0,
-        numOpSetPerm = 0, numOpSetOwner = 0, numOpSetGenStamp = 0,
-        numOpTimes = 0, numOpGetDelegationToken = 0,
-        numOpRenewDelegationToken = 0, numOpCancelDelegationToken = 0,
-        numOpUpdateMasterKey = 0, numOpOther = 0;
+
+    int numOpAdd = 0, numOpClose = 0;
+//        numOpDelete = 0,
+//        numOpRename = 0, numOpSetRepl = 0, numOpMkDir = 0,
+//        numOpSetPerm = 0, numOpSetOwner = 0, numOpSetGenStamp = 0,
+//        numOpTimes = 0, numOpGetDelegationToken = 0,
+//        numOpRenewDelegationToken = 0, numOpCancelDelegationToken = 0,
+//        numOpUpdateMasterKey = 0, numOpOther = 0;
 
     long startTime = time(NULL);
 
@@ -110,30 +116,82 @@ void FSEditLog::loadEdits() {
     assert(avail);
 
     while(true){
-        long timestamp = 0;
-        long mtime = 0;
-        long atime = 0;
-        long blockSize = 0;
         short opcode = -1;
+
+        try{
+            _editIStream->read((char*)&opcode, sizeof(opcode));
+
+            if(opcode==OP_INVALID) {
+                Log::write(ERROR,"get OP_INVALID from editLog. break ...");
+                break;
+            }
+        }catch(...){
+            Log::write(ERROR,"get error when reading opcode. break ...");
+            break;
+        }
+
+        numEdits++;
+
+        switch(opcode) {
+            case OP_ADD:
+            case OP_CLOSE:
+                INodeFile* newNode;
+                if(opcode==OP_ADD) {
+                    newNode = new INodeFileUnderConstruction();
+                    numOpAdd++;
+                }
+                else{
+                    newNode = new INodeFile();
+                    numOpClose++;
+                }
+
+                newNode->readFields(_editIStream);
+
+                for(int i =0; i< newNode->getBlockNum(); i++){
+                    Block* blk = new Block();
+                    blk->readFields(_editIStream);
+                    newNode->addBlock(blk);
+                }
+
+                perm = new Permission();
+                perm->readFields(_editIStream);
+                newNode->setPermission(perm);
+
+                if(opcode==OP_ADD){
+                    clientName = Writable::readString(_editIStream);
+                    clientMachine = Writable::readString(_editIStream);
+
+                    ((INodeFileUnderConstruction*)newNode)->setClientName(clientName);
+                    ((INodeFileUnderConstruction*)newNode)->setClientMachine(clientMachine);
+                }
+
+                //add to namespace
+                _fsImage->addFile(newNode,false);
+
+                break;
+            default:
+                Log::write(ERROR, "invalid opcode.");
+        }
+
 
         try{
 
         }catch(exception& e){
-            if(_editIStream.is_open())
-                _editIStream.close();
+            if(_editIStream->is_open())
+                _editIStream->close();
 
             Log::write(ERROR, e.what());
         }catch(char* e){
-            if(_editIStream.is_open())
-                _editIStream.close();
+            if(_editIStream->is_open())
+                _editIStream->close();
 
             Log::write(ERROR, e);
         }
 
     }
 
-    if(_editIStream.is_open())
-                _editIStream.close();
+    if(_editIStream->is_open())
+        _editIStream->close();
 
     long elapse = time(NULL) - startTime;
     Log::write(INFO, "FSEditLog::loadEdits takes " + boost::lexical_cast<string>(elapse)+" secs");
@@ -143,57 +201,99 @@ void FSEditLog::loadEdits() {
 /*log OPs*/
 
 void FSEditLog::logOpenFile(string path, INodeFileUnderConstruction* newNode) {
-    stringstream ss;
+    stringstream* ss = new stringstream();
 
     //op code
-    ss.write((char*)&OP_ADD, sizeof(OP_ADD));
+    short op_add = OP_ADD;
+    ss->write((char*)&op_add, sizeof(op_add));
 
     // INode
-    newNode->write(&ss);
+    newNode->write(ss);
 
     //blks
     vector<Block*> blks = newNode->getBlocks();
     for(vector<Block*>::iterator iter = blks.begin(); iter != blks.end(); iter++){
-        (*iter)->write(&ss);
+        (*iter)->write(ss);
     }
 
     //write perm
-    newNode->getPerm()->write(&ss);
+    newNode->getPermission()->write(ss);
 
     //write client name /machine
-    ss.write(newNode->getClientName().c_str(), sizeof(newNode->getClientName().c_str()));
-    ss.write(newNode->getClientMachine().c_str(), sizeof(newNode->getClientMachine().c_str()));
+    Writable::writeString(ss,newNode->getClientName());
+    Writable::writeString(ss,newNode->getClientMachine());
 
     //locs
     //version 1.0.4 doesn't write locs to edit log.
+
+    logEdit(ss);
 
     delete ss;
 }
 
 
 void FSEditLog::logCloseFile(string path, INodeFile* newNode) {
-    stringstream ss;
+    stringstream* ss = new stringstream();
 
     //op code
-    ss.write((char*)&OP_CLOSE, sizeof(OP_CLOSE));
+    short op_close = OP_CLOSE;
+    ss->write((char*)&op_close, sizeof(op_close));
 
     // INode
-    newNode->write(&ss);
+    newNode->write(ss);
 
     //blks
     vector<Block*> blks = newNode->getBlocks();
     for(vector<Block*>::iterator iter = blks.begin(); iter != blks.end(); iter++){
-        (*iter)->write(&ss);
+        (*iter)->write(ss);
     }
 
     //write perm
-    newNode->getPerm()->write(&ss);
+    newNode->getPermission()->write(ss);
 
     //locs
     //version 1.0.4 doesn't write locs to edit log.
 
+    logEdit(ss);
+
     delete ss;
 }
+
+
+void FSEditLog::logMkDir(string path, INode* newNode) {
+    stringstream* ss = new stringstream();
+
+    //op code
+    short op_close = OP_MKDIR;
+    ss->write((char*)&op_close, sizeof(op_close));
+
+    //path, modify time, access time
+    Writable::writeString(ss,newNode->getPath());
+
+    long modTime= newNode->getModTime();
+    ss->write((char*)&modTime,sizeof(modTime));
+
+    long accessTime = newNode->getAccessTime();
+    ss->write((char*)&accessTime,sizeof(accessTime));
+
+    //write perm
+    newNode->getPermission()->write(ss);
+
+
+    logEdit(ss);
+
+    delete ss;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

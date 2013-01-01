@@ -19,7 +19,7 @@ Block::~Block()
     //dtor
 }
 
-void Block::readFileds(istream* is) {
+void Block::readFields(istream* is) {
     is->read((char*)&_blockID, sizeof(_blockID));
 
     is->read((char*)&_blockLength, sizeof(_blockLength));

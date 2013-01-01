@@ -12,78 +12,25 @@ FSImage::FSImage()
     _numFiles = 1; // _root always exists
     _genStamp = -1;
 
+    // init lock
+    m_lock1 = boost::mutex::scoped_lock(m_log1);
+
+    //init sem
+    sem_init(&_sem_image, 0, 1);
+
     //init root
     _root = new INodeDirectory("/");
 }
 
 FSImage::~FSImage()
 {
-    //dtor
+    sem_destroy(&_sem_image);
 }
 
 FSImage::FSImage(string imgFile) : FSImage() {
 
     _imageFile = imgFile;
 }
-
-/*TODO: move this to proper class.
-*/
-INodeDirectory* FSImage::getParent(string path, INodeDirectory* root) {
-    vector<string> parts;
-
-    // if the parent is not root
-    if(path.size() > 1) {
-        split(parts, path, is_any_of("/"));
-
-        if (parts.size() > 1) {
-
-            //remove first "" and last part of file name.
-            //if the path only have 1 level, parts will be empty after trim.
-            // then in findByPath it will return root then.
-            parts.erase(parts.begin());
-            parts.erase(parts.end() - 1);
-
-            //ensure the parent exits.
-            INodeDirectory* p = findByPath(&parts, root);
-
-            if (p != NULL)
-                return p;
-
-        } else {
-            return root;
-        }
-    } else
-        return NULL;
-
-    return NULL;
-}
-
-
-/*assume path.size() > 1
-*/
-INodeDirectory* FSImage::findByPath(vector<string>* path, INodeDirectory* parent){
-    map<string,INode*>::iterator iter;
-    INodeDirectory* p = parent;
-
-    while(true){
-        for(size_t i=0; i<path->size();i++){
-            iter = p->getChildren()->find((*path)[i]);
-
-            if (iter == p->getChildren()->end()) {
-                // part of the path doesn't exist
-                Log::write(ERROR, "part of path "+(*path)[i]+" doesn't exist!");
-
-                return NULL;
-            }
-            p = (INodeDirectory*)iter->second;
-        }
-
-        break;
-    }
-
-    return p;
-}
-
 
 
 void FSImage::replaceRoot(INodeDirectory* newRoot) {
@@ -120,8 +67,8 @@ void FSImage::loadImage() {
                 // load INodes
                 for(int i=0; i < _numFiles; i++) {
                     INode* current = new INode();
-                    current->readFileds(&imgStream);
-                    parent = getParent(current->getPath(), _root);
+                    current->readFields(&imgStream);
+                    parent = INodeDirectory::getParent(current->getPath(), _root);
 
                     // if dir
                     if (current->getBlockNum() == 0){
@@ -142,7 +89,7 @@ void FSImage::loadImage() {
                         // read blocks
                         for(int fileIndex = 0; fileIndex < current->getBlockNum(); fileIndex++) {
                             Block blk;
-                            blk.readFileds(&imgStream);
+                            blk.readFields(&imgStream);
                             file.addBlock(&blk);
                         }
                     }
@@ -153,7 +100,7 @@ void FSImage::loadImage() {
 
                     //get permission for this INode
                     Permission perm;
-                    perm.readFileds(&imgStream);
+                    perm.readFields(&imgStream);
 
                     if(parent==NULL)
                         _root->setPermission(&perm);
@@ -182,6 +129,12 @@ void FSImage::loadImage() {
 
     if(imgStream.is_open())
             imgStream.close();
+
+    //mark image as ready
+    sem_wait(&_sem_image);
+    _ready = true;
+    sem_post(&_sem_image);
+    m_cond1.notify_all();
 
     return;
 }
@@ -260,7 +213,7 @@ void FSImage::saveINode(INode* currNode, ofstream* ofs) {
         }
     }
 
-    currNode->getPerm()->write(ofs);
+    currNode->getPermission()->write(ofs);
 }
 
 /*first loop store all children to image file;
@@ -284,6 +237,44 @@ void FSImage::saveINodeWrap(INode* currNode, ofstream* ofs){
     }
 }
 
+
+
+/*wait until fsimage finished loading.*/
+void FSImage::waitForReady() {
+
+    long start = time(NULL);
+
+    while (!_ready) {
+      try {
+        m_cond1.timed_wait(m_lock1,boost::posix_time::milliseconds(5000));
+
+        Log::write(INFO, "wait for " + boost::lexical_cast<string>(time(NULL)-start) +" for image ready...");
+      } catch (std::exception& e) {
+          Log::write(INFO,e.what());
+      }
+    }
+}
+
+
+void FSImage::addFile(INode* node, bool protect) {
+    INodeDirectory* parent = NULL;
+
+    if(protect)
+        waitForReady();
+
+    try{
+        parent = INodeDirectory::getParent(node->getPath(), _root);
+
+        node->setParent(parent);
+
+        parent->addChild(node, true);
+
+        Log::write(INFO, "added node " + node->getPath());
+    } catch(char* e) {
+        Log::write(ERROR, "fail to add node " + node->getPath()+" : " +e);
+    }
+
+}
 
 
 /*
@@ -337,6 +328,29 @@ void FSImage::setGenStamp(long gs) {
 long FSImage::getGenStamp(){
     return _genStamp;
 }
+
+
+//test
+void FSImage::print(INodeDirectory* parent) {
+    cout<<"\n"+parent->getPath()+":"<<endl;
+
+    map<string,INode*>::iterator iter = parent->getChildren()->begin();
+
+    for(;iter != parent->getChildren()->end();iter++){
+        cout<<iter->first<<endl;
+    }
+
+    iter = parent->getChildren()->begin();
+    for(;iter != parent->getChildren()->end();iter++){
+        if(iter->second->isDirectory())
+            print((INodeDirectory*)iter->second);
+    }
+}
+
+
+
+
+
 
 
 

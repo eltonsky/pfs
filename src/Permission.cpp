@@ -7,12 +7,19 @@ Permission::Permission()
     _perm = 0;
 }
 
+Permission::Permission(Permission* perm)
+{
+    _userName = perm->getUserName();
+    _groupName = perm->getGroupName();
+    _perm = perm->getPerm();
+}
+
 Permission::~Permission()
 {
     //dtor
 }
 
-void Permission::readFileds(istream* is) {
+void Permission::readFields(istream* is) {
     _userName = Writable::readString(is);
 
     _groupName = Writable::readString(is);

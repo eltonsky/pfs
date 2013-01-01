@@ -28,6 +28,17 @@ INode::INode(string path): INode(){
     _path = path;
 }
 
+
+INode::INode(INode* node) : INode() {
+    _path = node->getPath();
+    _modTime = node->getModTime();
+    _accessTime = node->getAccessTime();
+    _replication = node->getReplication();
+    _blockSize = node->getBlockSize();
+    _numBlocks = node->getBlockNum();
+}
+
+
 /*
 */
 void INode::write(ostream* os) {
@@ -37,13 +48,15 @@ void INode::write(ostream* os) {
 
     os->write((char*)&_modTime, sizeof(_modTime));
 
+    os->write((char*)&_accessTime, sizeof(_accessTime));
+
     os->write((char*)&_blockSize, sizeof(_blockSize));
 
     os->write((char*)&_numBlocks, sizeof(_numBlocks));
 }
 
 
-void INode::readFileds(istream* is) {
+void INode::readFields(istream* is) {
 
     _path = Writable::readString(is);
 
@@ -64,6 +77,12 @@ void INode::readFileds(istream* is) {
     }
 }
 
+
+void INode::setParent(INode* p) {
+    _parent = p;
+}
+
+
 void INode::setPermission(Permission* perm) {
     _perm = perm;
 }
@@ -76,7 +95,7 @@ bool INode::isFile() {
     return false;
 }
 
-Permission* INode::getPerm(){
+Permission* INode::getPermission(){
     return _perm;
 }
 

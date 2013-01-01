@@ -23,9 +23,26 @@ void INodeFileUnderConstruction::write(ostream* os) {
 
     os->write((char*)&_modTime, sizeof(_modTime));
 
+    os->write((char*)&_accessTime, sizeof(_accessTime));
+
     os->write((char*)&_preferredBlockSize, sizeof(_preferredBlockSize));
 
     os->write((char*)&_numBlocks, sizeof(_numBlocks));
+}
+
+void INodeFileUnderConstruction::readFields(istream* is) {
+
+    _path = Writable::readString(is);
+
+    is->read((char*)&_replication, sizeof(_replication));
+
+    is->read((char*)&_modTime, sizeof(_modTime));
+
+    is->read((char*)&_accessTime, sizeof(_accessTime));
+
+    is->read((char*)&_blockSize, sizeof(_blockSize));
+
+    is->read((char*)&_numBlocks, sizeof(_numBlocks));
 }
 
 
