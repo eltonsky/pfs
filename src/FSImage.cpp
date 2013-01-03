@@ -33,12 +33,11 @@ FSImage::FSImage(string imgFile) : FSImage() {
 }
 
 
-void FSImage::replaceRoot(INodeDirectory* newRoot) {
+void FSImage::replaceRoot(INode* newRoot) {
     delete _root;
 
-    _root = newRoot;
+    _root = new INodeDirectory(newRoot);
 }
-
 
 
 /* load image file to in mem struct
@@ -74,8 +73,10 @@ void FSImage::loadImage() {
                     if (current->getBlockNum() == 0){
                         INodeDirectory dir(current->getPath());
 
-                        if (parent==NULL)
-                            replaceRoot(new INodeDirectory(current));
+                        if (parent==NULL) {
+                            replaceRoot(current);
+                            child = _root;
+                        }
                         else
                             child = parent->addChild(&dir, 1);
 
@@ -224,13 +225,14 @@ void FSImage::saveINodeWrap(INode* currNode, ofstream* ofs){
 
     map<string,INode*>* children = ((INodeDirectory*)currNode)->getChildren();
 
-    map<string,INode*>::iterator iter;
+    map<string,INode*>::const_iterator iter;
 
     for(iter= children->begin(); iter != children->end(); iter++) {
         saveINode(iter->second, ofs);
     }
 
-    for(iter= children->begin(); iter != children->end(); iter++) {
+    iter= children->begin();
+    for(; iter != children->end(); iter++) {
         if(iter->second->isDirectory()) {
             saveINodeWrap(iter->second, ofs);
         }
@@ -256,7 +258,7 @@ void FSImage::waitForReady() {
 }
 
 
-void FSImage::addFile(INode* node, bool protect) {
+void FSImage::addFile(INode* node, bool protect, bool inheritPerm) {
     INodeDirectory* parent = NULL;
 
     if(protect)
@@ -267,7 +269,9 @@ void FSImage::addFile(INode* node, bool protect) {
 
         node->setParent(parent);
 
-        parent->addChild(node, true);
+        parent->addChild(node, inheritPerm);
+
+        _numFiles++;
 
         Log::write(INFO, "added node " + node->getPath());
     } catch(char* e) {
@@ -334,7 +338,7 @@ long FSImage::getGenStamp(){
 void FSImage::print(INodeDirectory* parent) {
     cout<<"\n"+parent->getPath()+":"<<endl;
 
-    map<string,INode*>::iterator iter = parent->getChildren()->begin();
+    map<string,INode*>::const_iterator iter = parent->getChildren()->begin();
 
     for(;iter != parent->getChildren()->end();iter++){
         cout<<iter->first<<endl;

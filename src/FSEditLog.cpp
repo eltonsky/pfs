@@ -166,7 +166,7 @@ void FSEditLog::loadEdits() {
                 }
 
                 //add to namespace
-                _fsImage->addFile(newNode,false);
+                _fsImage->addFile(newNode,false,true);
 
                 break;
             default:
