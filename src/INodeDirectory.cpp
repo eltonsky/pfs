@@ -143,3 +143,16 @@ map<string, INode*>* INodeDirectory::getChildren() {
     return &_children;
 }
 
+
+void INodeDirectory::print(bool recursive) {
+    cout<<"\n"+this->getPath()+":"<<endl;
+
+    map<string,INode*>::const_iterator iter = this->getChildren()->begin();
+
+    for(;iter != this->getChildren()->end();iter++){
+        iter->second->print(recursive);
+    }
+}
+
+
+

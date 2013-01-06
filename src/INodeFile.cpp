@@ -50,6 +50,19 @@ bool INodeFile::isFile(){
     return true;
 }
 
+
+void INodeFile::print(bool recursive) {
+    cout<<"\n"+this->getPath()+":"<<endl;
+
+    vector<Block*>::iterator iter = _blocks.begin();
+
+    for(;iter != _blocks.end();iter++){
+        (*iter)->print();
+    }
+
+}
+
+
 INodeFile::~INodeFile()
 {
     //dtor

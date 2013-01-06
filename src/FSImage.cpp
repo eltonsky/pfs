@@ -334,21 +334,9 @@ long FSImage::getGenStamp(){
 }
 
 
-//test
-void FSImage::print(INodeDirectory* parent) {
-    cout<<"\n"+parent->getPath()+":"<<endl;
-
-    map<string,INode*>::const_iterator iter = parent->getChildren()->begin();
-
-    for(;iter != parent->getChildren()->end();iter++){
-        cout<<iter->first<<endl;
-    }
-
-    iter = parent->getChildren()->begin();
-    for(;iter != parent->getChildren()->end();iter++){
-        if(iter->second->isDirectory())
-            print((INodeDirectory*)iter->second);
-    }
+//print to stdout
+void FSImage::print(INode* node) {
+    node->print(true);
 }
 
 

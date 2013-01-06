@@ -37,4 +37,6 @@ void Block::write(ostream* os) {
 }
 
 
-
+void Block::print(){
+    cout<<_blockID<<","<<_blockLength<<","<<_genStamp<<endl;
+}

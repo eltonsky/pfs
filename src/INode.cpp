@@ -127,6 +127,10 @@ void INode::setModTime(long modTime) {
     _modTime = modTime;
 }
 
+
+void INode::print(bool recursive){}
+
+
 INode::~INode()
 {
     //dtor
