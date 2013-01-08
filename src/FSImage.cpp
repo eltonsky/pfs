@@ -1,7 +1,6 @@
 #include "FSImage.h"
 
 using namespace std;
-using namespace boost;
 
 
 
@@ -84,15 +83,15 @@ void FSImage::loadImage() {
                     // if file
                         INodeFile file(current->getPath(),current->getReplication(),
                                        current->getBlockSize(), current->getBlockNum());
-
-                        child = parent->addChild(&file, 1);
-
                         // read blocks
                         for(int fileIndex = 0; fileIndex < current->getBlockNum(); fileIndex++) {
                             Block blk;
                             blk.readFields(&imgStream);
                             file.addBlock(&blk);
                         }
+
+                        child = parent->addChild(&file, 1);
+
                     }
 
                     if (child == 0L) {
@@ -107,8 +106,8 @@ void FSImage::loadImage() {
                         _root->setPermission(&perm);
                     else
                         child->setPermission(&perm);
-                }
 
+                }
 
                 // load data nodes
 
@@ -129,7 +128,7 @@ void FSImage::loadImage() {
     }
 
     if(imgStream.is_open())
-            imgStream.close();
+        imgStream.close();
 
     //mark image as ready
     sem_wait(&_sem_image);
@@ -207,10 +206,10 @@ void FSImage::saveINode(INode* currNode, ofstream* ofs) {
         ofs->write((char*)&dsQuota, sizeof(dsQuota));
     } else {
         //write blocks
-        vector<Block*> blocks = ((INodeFile*)currNode)->getBlocks();
+        vector<Block> blocks = ((INodeFile*)currNode)->getBlocks();
 
         for(int i=0; i<currNode->getBlockNum();i++){
-            blocks[i]->write(ofs);
+            blocks[i].write(ofs);
         }
     }
 
@@ -223,18 +222,18 @@ void FSImage::saveINode(INode* currNode, ofstream* ofs) {
 */
 void FSImage::saveINodeWrap(INode* currNode, ofstream* ofs){
 
-    map<string,INode*>* children = ((INodeDirectory*)currNode)->getChildren();
+    vector<shared_ptr<INode>>& children = ((INodeDirectory*)currNode)->getChildren();
 
-    map<string,INode*>::const_iterator iter;
+    vector<shared_ptr<INode>>::iterator iter;
 
-    for(iter= children->begin(); iter != children->end(); iter++) {
-        saveINode(iter->second, ofs);
+    for(iter= children.begin(); iter != children.end(); iter++) {
+        saveINode(iter->get(), ofs);
     }
 
-    iter= children->begin();
-    for(; iter != children->end(); iter++) {
-        if(iter->second->isDirectory()) {
-            saveINodeWrap(iter->second, ofs);
+    iter= children.begin();
+    for(; iter != children.end(); iter++) {
+        if(iter->get()->isDirectory()) {
+            saveINodeWrap(iter->get(), ofs);
         }
     }
 }

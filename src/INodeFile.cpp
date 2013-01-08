@@ -16,27 +16,30 @@ INodeFile::INodeFile(string path, short replication, long blkSize, int numBlocks
 INodeFile::INodeFile(INodeFile* file) : INode(file){
     _blocks.reserve(10);
 
-    vector<Block*>::iterator iter;
+    vector<Block>::iterator iter;
 
     for(iter = file->getBlocks().begin(); iter!=file->getBlocks().end(); ++iter) {
-        _blocks.push_back(*iter);
+        Block blk(iter->getBlkID(), iter->getBlkLength(), iter->getBlkGenStamp());
+
+        _blocks.push_back(blk);
     }
 }
 
 
-
 void INodeFile::addBlock(Block* blk) {
-    _blocks.push_back(blk);
+    Block block(blk->getBlkID(), blk->getBlkLength(), blk->getBlkGenStamp());
+    _blocks.push_back(block);
 }
 
 void INodeFile::setBlock(int index, Block* blk) {
-    vector<Block*>::iterator iter = _blocks.begin();
+    vector<Block>::iterator iter = _blocks.begin();
+    Block block(blk->getBlkID(), blk->getBlkLength(), blk->getBlkGenStamp());
 
-    _blocks.insert(iter+index, blk);
+    _blocks.insert(iter+index, block);
 }
 
 
-vector<Block*> INodeFile::getBlocks(){
+vector<Block> INodeFile::getBlocks(){
     return _blocks;
 }
 
@@ -54,10 +57,10 @@ bool INodeFile::isFile(){
 void INodeFile::print(bool recursive) {
     cout<<"\n"+this->getPath()+":"<<endl;
 
-    vector<Block*>::iterator iter = _blocks.begin();
+    vector<Block>::iterator iter = _blocks.begin();
 
     for(;iter != _blocks.end();iter++){
-        (*iter)->print();
+        iter->print();
     }
 
 }

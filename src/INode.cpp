@@ -128,7 +128,12 @@ void INode::setModTime(long modTime) {
 }
 
 
-void INode::print(bool recursive){}
+void INode::print(bool recursive){cout<<"get called"<<endl;}
+
+
+bool INode::operator==(const INode& other) const {
+    return (this->_path == other._path);
+}
 
 
 INode::~INode()

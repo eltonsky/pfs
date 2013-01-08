@@ -1,6 +1,7 @@
 #include "INodeDirectory.h"
 using namespace std;
-using namespace boost;
+
+INodeDirectory::INodeDirectory():INode(){}
 
 INodeDirectory::INodeDirectory(string path) : INode(path)
 {
@@ -22,22 +23,21 @@ INodeDirectory::~INodeDirectory()
 /*
 */
 INodeDirectory* INodeDirectory::getParent(string path, INodeDirectory* root) {
-    vector<string> parts;
+    vector<short> pos;
 
     // if the parent is not root
     if(path.size() > 1) {
-        split(parts, path, is_any_of("/"));
+        int i=0;
+        while(i != -1) {
+            i = path.find('/',i+1);
+            if(i != -1)
+                pos.push_back(i);
+        }
 
-        if (parts.size() > 1) {
-
-            //remove first "" and last part of file name.
-            //if the path only have 1 level, parts will be empty after trim.
-            // then in findByPath it will return root then.
-            parts.erase(parts.begin());
-            parts.erase(parts.end() - 1);
+        if (pos.size() > 0) {
 
             //ensure the parent exits.
-            INodeDirectory* p = findByPath(&parts, root);
+            INodeDirectory* p = findByPath(path, pos, root);
 
             if (p != NULL)
                 return p;
@@ -53,25 +53,26 @@ INodeDirectory* INodeDirectory::getParent(string path, INodeDirectory* root) {
 
 
 /*assume path.size() > 1
+always start from root so far.
 */
-INodeDirectory* INodeDirectory::findByPath(vector<string>* path, INodeDirectory* parent){
-    map<string,INode*>::iterator iter;
-    INodeDirectory* p = parent;
+INodeDirectory* INodeDirectory::findByPath(string path, vector<short> pos, INodeDirectory* root){
+    vector<shared_ptr<INode>>::iterator iter;
+    INodeDirectory* p = root;
+    string partialPath;
 
-    while(true){
-        for(size_t i=0; i<path->size();i++){
-            iter = p->getChildren()->find((*path)[i]);
+    for(size_t i=0; i< pos.size();i++){
+        partialPath = path.substr(0,pos[i]);
 
-            if (iter == p->getChildren()->end()) {
-                // part of the path doesn't exist
-                Log::write(ERROR, "part of path "+(*path)[i]+" doesn't exist!");
+        INode node(partialPath);
 
-                return NULL;
-            }
-            p = (INodeDirectory*)iter->second;
+        p = (INodeDirectory*) p->find_child(&node);
+
+        if (p == NULL) {
+            // part of the path doesn't exist
+            Log::write(ERROR, "partial path "+partialPath+" for file "+ path +" can not be located!");
+
+            return NULL;
         }
-
-        break;
     }
 
     return p;
@@ -82,7 +83,6 @@ INodeDirectory* INodeDirectory::findByPath(vector<string>* path, INodeDirectory*
 change string path to vector<string> paths.
 */
 INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
-    INode* newNode;
 
     if(inheritPerm){
         Permission* perm = new Permission(this->getPermission());
@@ -91,39 +91,25 @@ INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
 
     child->setModTime(time(NULL));
 
-    // if already exits.
-    map<string,INode*>::iterator iter;
-    int last_index_of_slash = child->getPath().find_last_of("/");
+    INode* exist = find_child(child);
 
-    string name;
-    if(last_index_of_slash == -1)
-        name = child->getPath();
-    else
-        name = child->getPath().substr(last_index_of_slash+1);
+    if(exist == NULL){
+        INode* newNode;
 
-    iter = _children.find(name);
-
-    // if travel out of the end, did not find.
-    if (iter == _children.end()) {
-
-        if(child->isDirectory())
+        if(child->isDirectory()) {
             newNode = new INodeDirectory(child);
-        else
+        } else
             newNode = new INodeFile((INodeFile*)child);
 
-        _children.insert(_children.begin(), pair<string,INode*>(name,newNode));
+        shared_ptr<INode> sChild(newNode);
+        _children.push_back(sChild);
     }
     else
-        return 0L;
-
-/////////
-//cout<<endl;
-//for(iter=_children.begin();iter!=_children.end();iter++){
-//    cout<<iter->first<<" : " << iter->second->getPath()<<endl;
-//}
+        return NULL;
 
     return child;
 }
+
 
 bool INodeDirectory::isDirectory(){
     return true;
@@ -134,23 +120,35 @@ bool INodeDirectory::isFile(){
     return false;
 }
 
-void INodeDirectory::setParent(INode* parent) {
-    _parent = parent;
+INode* INodeDirectory::find_child(INode* node) {
+    vector<std::shared_ptr<INode>>::iterator iter;
+
+    for(iter=_children.begin();iter!= _children.end();iter++){
+        if(iter->get()->getPath() == node->getPath()){
+            return iter->get();
+        }
+    }
+
+    return NULL;
 }
 
-
-map<string, INode*>* INodeDirectory::getChildren() {
-    return &_children;
+void INodeDirectory::setParent(INode* parent) {
+    _parent = parent;
 }
 
 
 void INodeDirectory::print(bool recursive) {
     cout<<"\n"+this->getPath()+":"<<endl;
 
-    map<string,INode*>::const_iterator iter = this->getChildren()->begin();
+    vector<shared_ptr<INode>>::iterator iter;
 
-    for(;iter != this->getChildren()->end();iter++){
-        iter->second->print(recursive);
+    for(iter=_children.begin();iter!=_children.end();iter++){
+        INode* node = iter->get();
+
+        if(node->isDirectory())
+            ((INodeDirectory*)node)->print(recursive);
+        else
+            ((INodeFile*)node)->print(recursive);
     }
 }
 

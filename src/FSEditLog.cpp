@@ -211,9 +211,9 @@ void FSEditLog::logOpenFile(string path, INodeFileUnderConstruction* newNode) {
     newNode->write(ss);
 
     //blks
-    vector<Block*> blks = newNode->getBlocks();
-    for(vector<Block*>::iterator iter = blks.begin(); iter != blks.end(); iter++){
-        (*iter)->write(ss);
+    vector<Block> blks = newNode->getBlocks();
+    for(vector<Block>::iterator iter = blks.begin(); iter != blks.end(); iter++){
+        iter->write(ss);
     }
 
     //write perm
@@ -243,9 +243,9 @@ void FSEditLog::logCloseFile(string path, INodeFile* newNode) {
     newNode->write(ss);
 
     //blks
-    vector<Block*> blks = newNode->getBlocks();
-    for(vector<Block*>::iterator iter = blks.begin(); iter != blks.end(); iter++){
-        (*iter)->write(ss);
+    vector<Block> blks = newNode->getBlocks();
+    for(vector<Block>::iterator iter = blks.begin(); iter != blks.end(); iter++){
+        iter->write(ss);
     }
 
     //write perm
