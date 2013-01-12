@@ -14,9 +14,35 @@ INodeDirectory::INodeDirectory(INode* node) :
     _parent =0L;
 }
 
+INodeDirectory::INodeDirectory(INodeDirectory& dir) :
+    INode(&dir)
+{
+    _parent =0L;
+
+    _children.reserve(10);
+    vector<shared_ptr<INode>>::iterator iter;
+    for(iter = dir.getChildren().begin();iter != dir.getChildren().end();iter++){
+        _children.push_back(*iter);
+    }
+}
+
+
+INodeDirectory& INodeDirectory::operator = (const INodeDirectory& dir) {
+    _path = dir.getPath();
+
+    _children.clear();
+    vector<shared_ptr<INode>>::iterator iter;
+    for(iter = dir.getChildren().begin();iter != dir.getChildren().end();iter++){
+        _children.push_back(*iter);
+    }
+
+    return *this;
+}
+
+
 INodeDirectory::~INodeDirectory()
 {
-    //dtor
+//    cout<<"dctor dir: "<<this->getPath()<<endl;
 }
 
 
@@ -79,35 +105,59 @@ INodeDirectory* INodeDirectory::findByPath(string path, vector<short> pos, INode
 }
 
 
+///*
+//change string path to vector<string> paths.
+//*/
+//INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
+//
+//    if(inheritPerm){
+//        Permission* perm = new Permission(this->getPermission());
+//        child->setPermission(perm);
+//    }
+//
+//    child->setModTime(time(NULL));
+//
+//    INode* exist = find_child(child);
+//
+//    if(exist == NULL){
+//        INode* newNode;
+//
+//        if(child->isDirectory()) {
+//            newNode = new INodeDirectory(child);
+//        } else
+//            newNode = new INodeFile((INodeFile*)child);
+//
+//        shared_ptr<INode> sChild(newNode);
+//        _children.push_back(sChild);
+//    }
+//    else
+//        return NULL;
+//
+//    return child;
+//}
+
+
 /*
 change string path to vector<string> paths.
 */
-INode* INodeDirectory::addChild(INode* child, bool inheritPerm) {
+INode* INodeDirectory::addChild(shared_ptr<INode> sChild, bool inheritPerm) {
 
     if(inheritPerm){
-        Permission* perm = new Permission(this->getPermission());
-        child->setPermission(perm);
+        Permission perm(this->getPermission());
+        sChild.get()->setPermission(perm);
     }
 
-    child->setModTime(time(NULL));
+    sChild.get()->setModTime(time(NULL));
 
-    INode* exist = find_child(child);
+    INode* exist = find_child(sChild.get());
 
     if(exist == NULL){
-        INode* newNode;
-
-        if(child->isDirectory()) {
-            newNode = new INodeDirectory(child);
-        } else
-            newNode = new INodeFile((INodeFile*)child);
-
-        shared_ptr<INode> sChild(newNode);
         _children.push_back(sChild);
     }
     else
         return NULL;
 
-    return child;
+    return sChild.get();
 }
 
 
@@ -138,7 +188,7 @@ void INodeDirectory::setParent(INode* parent) {
 
 
 void INodeDirectory::print(bool recursive) {
-    cout<<"\n"+this->getPath()+":"<<endl;
+    cout<<"\n"+this->getPath()+" : "<< this->getPermission()<<endl;
 
     vector<shared_ptr<INode>>::iterator iter;
 

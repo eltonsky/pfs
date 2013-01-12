@@ -27,8 +27,9 @@ string Writable::readString(istream* ifs) {
     ifs->read((char*)&length, sizeof(length));
 
     if(length > 1) {
-        char* buf = new char[length];
+        char buf[length];
         ifs->read(buf, length);
+
         return string(buf);
     }
 

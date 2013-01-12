@@ -1,12 +1,11 @@
 #include "Config.h"
 using namespace tinyxml2;
-using namespace boost;
 using namespace std;
 
 Config::Config(){}
 
 
-vector<XMLDocument*> Config::_docs;
+vector<shared_ptr<XMLDocument>> Config::_docs;
 
 void Config::load(string file){
 
@@ -16,7 +15,8 @@ void Config::load(string file){
        throw "Fail to load config file" +file;
     }
 
-    _docs.push_back(doc);
+    shared_ptr<XMLDocument> sDoc(doc);
+    _docs.push_back(sDoc);
 
 }
 
@@ -25,15 +25,17 @@ void Config::load(vector<string> files){
 
     for(vector<string>::iterator iter = files.begin(); iter != files.end(); iter++) {
 
-        XMLDocument doc;
+        XMLDocument* doc = new XMLDocument();
 
-        if (doc.LoadFile((*iter).c_str()) != XML_SUCCESS){
+        if (doc->LoadFile((*iter).c_str()) != XML_SUCCESS){
            throw "Fail to load config file" + *iter;
         }
 
-        _docs.push_back(&doc);
+        shared_ptr<XMLDocument> sDoc(doc);
+        _docs.push_back(sDoc);
     }
 }
+
 
 const char* Config::get(string names) {
     XMLElement* elmt = _getElement(names);
@@ -65,10 +67,10 @@ assume there's no duplicate conf name across all config files.
 XMLElement* Config::_getElement(string names){
     vector <string> fields;
     XMLElement* elmt;
-    split( fields, names, is_any_of( "," ) );
+    boost::split( fields, names, boost::is_any_of( "," ) );
 
-    for(vector<XMLDocument*>::iterator iter = _docs.begin(); iter != _docs.end(); iter++) {
-        elmt =(*iter)->FirstChildElement((char*)fields[0].c_str());
+    for(vector<shared_ptr<XMLDocument>>::iterator iter = _docs.begin(); iter != _docs.end(); iter++) {
+        elmt =iter->get()->FirstChildElement((char*)fields[0].c_str());
 
         if(elmt == NULL)
             continue;

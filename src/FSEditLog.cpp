@@ -88,7 +88,6 @@ void FSEditLog::loadEdits() {
 
     int numEdits = 0;
     int logVersion = 0;
-    Permission* perm = 0L;
 
     string clientName;
     string clientMachine;
@@ -134,27 +133,34 @@ void FSEditLog::loadEdits() {
 
         switch(opcode) {
             case OP_ADD:
-            case OP_CLOSE:
+            case OP_CLOSE: {
                 INodeFile* newNode;
+
                 if(opcode==OP_ADD) {
-                    newNode = new INodeFileUnderConstruction();
+                    INodeFileUnderConstruction ufile;
+
+                    newNode = (INodeFileUnderConstruction*)&ufile;
+
                     numOpAdd++;
                 }
                 else{
-                    newNode = new INodeFile();
+                    INodeFile file;
+
+                    newNode = &file;
+
                     numOpClose++;
                 }
 
                 newNode->readFields(_editIStream);
 
                 for(int i =0; i< newNode->getBlockNum(); i++){
-                    Block* blk = new Block();
-                    blk->readFields(_editIStream);
+                    Block blk;
+                    blk.readFields(_editIStream);
                     newNode->addBlock(blk);
                 }
 
-                perm = new Permission();
-                perm->readFields(_editIStream);
+                Permission perm;
+                perm.readFields(_editIStream);
                 newNode->setPermission(perm);
 
                 if(opcode==OP_ADD){
@@ -166,9 +172,11 @@ void FSEditLog::loadEdits() {
                 }
 
                 //add to namespace
-                _fsImage->addFile(newNode,false,true);
+                shared_ptr<INode> pNode(newNode);
+                _fsImage->addFile(pNode,false,true);
 
                 break;
+            }
             default:
                 Log::write(ERROR, "invalid opcode.");
         }
@@ -217,7 +225,7 @@ void FSEditLog::logOpenFile(string path, INodeFileUnderConstruction* newNode) {
     }
 
     //write perm
-    newNode->getPermission()->write(ss);
+    newNode->getPermission().write(ss);
 
     //write client name /machine
     Writable::writeString(ss,newNode->getClientName());
@@ -249,7 +257,7 @@ void FSEditLog::logCloseFile(string path, INodeFile* newNode) {
     }
 
     //write perm
-    newNode->getPermission()->write(ss);
+    newNode->getPermission().write(ss);
 
     //locs
     //version 1.0.4 doesn't write locs to edit log.
@@ -277,7 +285,7 @@ void FSEditLog::logMkDir(string path, INode* newNode) {
     ss->write((char*)&accessTime,sizeof(accessTime));
 
     //write perm
-    newNode->getPermission()->write(ss);
+    newNode->getPermission().write(ss);
 
 
     logEdit(ss);

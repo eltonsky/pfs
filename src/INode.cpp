@@ -11,8 +11,6 @@ INode::INode()
     _numBlocks = 0;
     nsQuota = 0;
     dsQuota = 0;
-
-    _perm = new Permission();
 }
 
 //file
@@ -58,7 +56,8 @@ void INode::write(ostream* os) {
 
 void INode::readFields(istream* is) {
 
-    _path = Writable::readString(is);
+    string str = Writable::readString(is);
+    _path = str;
 
     is->read((char*)&_replication, sizeof(_replication));
 
@@ -82,10 +81,15 @@ void INode::setParent(INode* p) {
     _parent = p;
 }
 
+INode* INode::getParent() {
+    return _parent;
+}
 
-void INode::setPermission(Permission* perm) {
+
+void INode::setPermission(Permission& perm) {
     _perm = perm;
 }
+
 
 bool INode::isDirectory(){
     return false;
@@ -95,7 +99,7 @@ bool INode::isFile() {
     return false;
 }
 
-Permission* INode::getPermission(){
+Permission& INode::getPermission(){
     return _perm;
 }
 
@@ -107,7 +111,7 @@ long INode::getAccessTime(){
     return _accessTime;
 }
 
-string INode::getPath(){
+string INode::getPath() const{
     return _path;
 }
 

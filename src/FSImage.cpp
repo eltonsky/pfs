@@ -24,6 +24,9 @@ FSImage::FSImage()
 FSImage::~FSImage()
 {
     sem_destroy(&_sem_image);
+
+    if(_root != NULL)
+        delete _root;
 }
 
 FSImage::FSImage(string imgFile) : FSImage() {
@@ -64,38 +67,45 @@ void FSImage::loadImage() {
 
                 // load INodes
                 for(int i=0; i < _numFiles; i++) {
-                    INode* current = new INode();
-                    current->readFields(&imgStream);
-                    parent = INodeDirectory::getParent(current->getPath(), _root);
+                    INode current;
+                    current.readFields(&imgStream);
+                    parent = INodeDirectory::getParent(current.getPath(), _root);
 
                     // if dir
-                    if (current->getBlockNum() == 0){
-                        INodeDirectory dir(current->getPath());
+                    if (current.getBlockNum() == 0){
 
                         if (parent==NULL) {
-                            replaceRoot(current);
+                            replaceRoot(&current);
                             child = _root;
                         }
-                        else
-                            child = parent->addChild(&dir, 1);
+                        else {
+                            INodeDirectory* dir = new INodeDirectory(current.getPath());
+
+                            shared_ptr<INode> pNode(dir);
+
+                            child = parent->addChild(pNode, 1);
+                        }
 
                     } else {
                     // if file
-                        INodeFile file(current->getPath(),current->getReplication(),
-                                       current->getBlockSize(), current->getBlockNum());
+                        INodeFile* file = new INodeFile(current.getPath(),current.getReplication(),
+                                       current.getBlockSize(), current.getBlockNum());
+
+                        shared_ptr<INode> pNode(file);
+
                         // read blocks
-                        for(int fileIndex = 0; fileIndex < current->getBlockNum(); fileIndex++) {
+                        for(int fileIndex = 0; fileIndex < current.getBlockNum(); fileIndex++) {
                             Block blk;
                             blk.readFields(&imgStream);
-                            file.addBlock(&blk);
+                            file->addBlock(blk);
                         }
 
-                        child = parent->addChild(&file, 1);
+                        child = parent->addChild(pNode, 1);
 
                     }
 
                     if (child == 0L) {
-                        throw("failed to insert INode " + current->getPath());
+                        throw("failed to insert INode " + current.getPath());
                     }
 
                     //get permission for this INode
@@ -103,9 +113,9 @@ void FSImage::loadImage() {
                     perm.readFields(&imgStream);
 
                     if(parent==NULL)
-                        _root->setPermission(&perm);
+                        _root->setPermission(perm);
                     else
-                        child->setPermission(&perm);
+                        child->setPermission(perm);
 
                 }
 
@@ -213,7 +223,7 @@ void FSImage::saveINode(INode* currNode, ofstream* ofs) {
         }
     }
 
-    currNode->getPermission()->write(ofs);
+    currNode->getPermission().write(ofs);
 }
 
 /*first loop store all children to image file;
@@ -257,24 +267,24 @@ void FSImage::waitForReady() {
 }
 
 
-void FSImage::addFile(INode* node, bool protect, bool inheritPerm) {
+void FSImage::addFile(shared_ptr<INode>& sNode, bool protect, bool inheritPerm) {
     INodeDirectory* parent = NULL;
 
     if(protect)
         waitForReady();
 
     try{
-        parent = INodeDirectory::getParent(node->getPath(), _root);
+        parent = INodeDirectory::getParent(sNode.get()->getPath(), _root);
 
-        node->setParent(parent);
+        sNode.get()->setParent(parent);
 
-        parent->addChild(node, inheritPerm);
+        parent->addChild(sNode, inheritPerm);
 
         _numFiles++;
 
-        Log::write(INFO, "added node " + node->getPath());
+        Log::write(INFO, "added node " + sNode.get()->getPath());
     } catch(char* e) {
-        Log::write(ERROR, "fail to add node " + node->getPath()+" : " +e);
+        Log::write(ERROR, "fail to add node " + sNode.get()->getPath()+" : " +e);
     }
 
 }
