@@ -80,6 +80,11 @@ bool INodeFile::isFile(){
 }
 
 
+void INodeFile::readFields(istream* is) {
+    INode::readFields(is);
+}
+
+
 void INodeFile::print(bool recursive) {
     cout<<"\n"+this->getPath()+":"<<endl;
 

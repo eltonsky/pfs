@@ -52,7 +52,6 @@ Block blk2(222,333,654321);
 file2->addBlock(blk2);
 shared_ptr<INode> pNode4(file2);
 FSNameSystem::getFSNamesystem().getFSImage()->addFile(pNode4,false,true);
-
 /**/
 
     _fsImage->saveImage();
@@ -66,13 +65,6 @@ FSNameSystem::getFSNamesystem().getFSImage()->addFile(pNode4,false,true);
 void FSNameSystem::loadNameSpace(){
 
     _fsImage->loadImage();
-
-///**/
-//    map<string,INode*>::iterator iter = _fsImage->getRoot()->getChildren()->begin();
-//
-//    for(;iter != _fsImage->getRoot()->getChildren()->end();iter++) {
-//        cout<<iter->first<<endl;
-//    }
 
     FSImage::print(_fsImage->getRoot());
 }

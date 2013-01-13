@@ -30,6 +30,7 @@ void INodeFileUnderConstruction::write(ostream* os) {
     os->write((char*)&_numBlocks, sizeof(_numBlocks));
 }
 
+
 void INodeFileUnderConstruction::readFields(istream* is) {
 
     _path = Writable::readString(is);

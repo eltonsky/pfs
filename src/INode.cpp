@@ -56,8 +56,7 @@ void INode::write(ostream* os) {
 
 void INode::readFields(istream* is) {
 
-    string str = Writable::readString(is);
-    _path = str;
+    _path = Writable::readString(is);
 
     is->read((char*)&_replication, sizeof(_replication));
 

@@ -3,10 +3,9 @@
 using namespace std;
 
 
-
 FSImage::FSImage()
 {
-    _imgVersion = atoi(Config::get("pfs,imgFile,version"));
+    _imgVersion = atof(Config::get("pfs,imgFile,version"));
     _namespaceId = -1;
     _numFiles = 1; // _root always exists
     _genStamp = -1;
@@ -21,6 +20,7 @@ FSImage::FSImage()
     _root = new INodeDirectory("/");
 }
 
+
 FSImage::~FSImage()
 {
     sem_destroy(&_sem_image);
@@ -28,6 +28,7 @@ FSImage::~FSImage()
     if(_root != NULL)
         delete _root;
 }
+
 
 FSImage::FSImage(string imgFile) : FSImage() {
 
@@ -298,12 +299,12 @@ INodeDirectory* FSImage::getRoot() {
     return _root;
 }
 
-void FSImage::setVersion(int v) {
+void FSImage::setVersion(float v) {
     _imgVersion = v;
 }
 
 
-int FSImage::getVersion(){
+float FSImage::getVersion(){
     return _imgVersion;
 }
 
