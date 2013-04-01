@@ -14,10 +14,13 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-Iinclude" />
+					<Add option="-std=c++11" />
+					<Add option="-O0" />
 				</Compiler>
 				<Linker>
 					<Add option="-lpthread" />
 					<Add option="-llog4cpp" />
+					<Add option="-lboost_thread" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -49,6 +52,7 @@
 		<Unit filename="include/INodeFileUnderConstruction.h" />
 		<Unit filename="include/Log.h" />
 		<Unit filename="include/Permission.h" />
+		<Unit filename="include/Writable.h" />
 		<Unit filename="include/tinyxml2.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Block.cpp" />
@@ -63,6 +67,7 @@
 		<Unit filename="src/INodeFileUnderConstruction.cpp" />
 		<Unit filename="src/Log.cpp" />
 		<Unit filename="src/Permission.cpp" />
+		<Unit filename="src/Writable.cpp" />
 		<Unit filename="src/tinyxml2.cpp" />
 		<Extensions>
 			<code_completion />

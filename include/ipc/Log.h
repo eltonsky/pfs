@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <sys/syscall.h>
-#include "Config.h"
+#include <unistd.h>
 #include "log4cpp/Category.hh"
 #include "log4cpp/Appender.hh"
 #include "log4cpp/FileAppender.hh"
@@ -44,7 +44,5 @@ class Log
 
     private:
 };
-
-
 
 #endif // LOG_H

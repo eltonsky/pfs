@@ -1,61 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include/Block.h" open="1" top="0" tabpos="11">
-		<Cursor position="312" topLine="0" />
+	<File name="include/Block.h" open="0" top="0" tabpos="14">
+		<Cursor position="569" topLine="0" />
 	</File>
 	<File name="include/Config.h" open="0" top="0" tabpos="3">
-		<Cursor position="273" topLine="0" />
+		<Cursor position="569" topLine="0" />
 	</File>
-	<File name="include/FSImage.h" open="1" top="0" tabpos="9">
-		<Cursor position="529" topLine="0" />
+	<File name="include/FSEditLog.h" open="1" top="0" tabpos="12">
+		<Cursor position="1596" topLine="15" />
 	</File>
-	<File name="include/INode.h" open="1" top="0" tabpos="3">
-		<Cursor position="755" topLine="0" />
+	<File name="include/FSImage.h" open="1" top="0" tabpos="8">
+		<Cursor position="1273" topLine="29" />
 	</File>
-	<File name="include/INodeDirectory.h" open="1" top="0" tabpos="4">
-		<Cursor position="314" topLine="0" />
+	<File name="include/FSNameSystem.h" open="1" top="0" tabpos="10">
+		<Cursor position="22" topLine="0" />
 	</File>
-	<File name="include/INodeFile.h" open="1" top="0" tabpos="6">
-		<Cursor position="328" topLine="0" />
+	<File name="include/INode.h" open="1" top="0" tabpos="2">
+		<Cursor position="675" topLine="9" />
+	</File>
+	<File name="include/INodeDirectory.h" open="1" top="0" tabpos="7">
+		<Cursor position="782" topLine="0" />
+	</File>
+	<File name="include/INodeFile.h" open="1" top="0" tabpos="4">
+		<Cursor position="566" topLine="0" />
+	</File>
+	<File name="include/INodeFileUnderConstruction.h" open="1" top="0" tabpos="14">
+		<Cursor position="1073" topLine="0" />
 	</File>
 	<File name="include/Log.h" open="0" top="0" tabpos="4">
 		<Cursor position="793" topLine="0" />
 	</File>
-	<File name="include/Permission.h" open="1" top="0" tabpos="13">
-		<Cursor position="255" topLine="0" />
+	<File name="include/Permission.h" open="0" top="0" tabpos="16">
+		<Cursor position="324" topLine="0" />
+	</File>
+	<File name="include/Writable.h" open="0" top="0" tabpos="13">
+		<Cursor position="37" topLine="0" />
 	</File>
 	<File name="include/tinyxml2.h" open="0" top="0" tabpos="0">
-		<Cursor position="31679" topLine="1092" />
+		<Cursor position="17204" topLine="632" />
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="322" topLine="5" />
+		<Cursor position="1579" topLine="42" />
 	</File>
-	<File name="src/Block.cpp" open="1" top="0" tabpos="10">
-		<Cursor position="204" topLine="0" />
+	<File name="src/Block.cpp" open="0" top="0" tabpos="15">
+		<Cursor position="676" topLine="0" />
 	</File>
 	<File name="src/Config.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="102" topLine="0" />
+		<Cursor position="1141" topLine="47" />
 	</File>
-	<File name="src/FSImage.cpp" open="1" top="1" tabpos="8">
-		<Cursor position="4125" topLine="166" />
+	<File name="src/FSEditLog.cpp" open="1" top="0" tabpos="13">
+		<Cursor position="273" topLine="0" />
 	</File>
-	<File name="src/INode.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="800" topLine="22" />
+	<File name="src/FSImage.cpp" open="1" top="1" tabpos="9">
+		<Cursor position="6452" topLine="167" />
 	</File>
-	<File name="src/INodeDirectory.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="795" topLine="9" />
+	<File name="src/FSNameSystem.cpp" open="1" top="0" tabpos="11">
+		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="src/INodeFile.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="405" topLine="0" />
+	<File name="src/INode.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="1107" topLine="33" />
+	</File>
+	<File name="src/INodeDirectory.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="3313" topLine="136" />
+	</File>
+	<File name="src/INodeFile.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="1766" topLine="49" />
+	</File>
+	<File name="src/INodeFileUnderConstruction.cpp" open="1" top="0" tabpos="15">
+		<Cursor position="843" topLine="0" />
 	</File>
 	<File name="src/Log.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="240" topLine="18" />
+		<Cursor position="50" topLine="0" />
 	</File>
-	<File name="src/Permission.cpp" open="1" top="0" tabpos="12">
-		<Cursor position="316" topLine="0" />
+	<File name="src/Permission.cpp" open="0" top="0" tabpos="17">
+		<Cursor position="112" topLine="0" />
+	</File>
+	<File name="src/Writable.cpp" open="0" top="0" tabpos="14">
+		<Cursor position="459" topLine="0" />
 	</File>
 	<File name="src/tinyxml2.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="42258" topLine="750" />
+		<Cursor position="42258" topLine="1594" />
 	</File>
 </CodeBlocks_layout_file>

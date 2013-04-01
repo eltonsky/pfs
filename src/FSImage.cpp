@@ -105,7 +105,7 @@ void FSImage::loadImage() {
 
                     }
 
-                    if (child == 0L) {
+                    if (child == NULL) {
                         throw("failed to insert INode " + current.getPath());
                     }
 
@@ -149,7 +149,6 @@ void FSImage::loadImage() {
 
     return;
 }
-
 
 
 void FSImage::saveImage() {
@@ -233,7 +232,7 @@ void FSImage::saveINode(INode* currNode, ofstream* ofs) {
 */
 void FSImage::saveINodeWrap(INode* currNode, ofstream* ofs){
 
-    vector<shared_ptr<INode>>& children = ((INodeDirectory*)currNode)->getChildren();
+    vector<shared_ptr<INode>> children = ((INodeDirectory*)currNode)->getChildren();
 
     vector<shared_ptr<INode>>::iterator iter;
 
@@ -248,7 +247,6 @@ void FSImage::saveINodeWrap(INode* currNode, ofstream* ofs){
         }
     }
 }
-
 
 
 /*wait until fsimage finished loading.*/
@@ -268,7 +266,7 @@ void FSImage::waitForReady() {
 }
 
 
-void FSImage::addFile(shared_ptr<INode>& sNode, bool protect, bool inheritPerm) {
+void FSImage::addFile(shared_ptr<INode> sNode, bool protect, bool inheritPerm) {
     INodeDirectory* parent = NULL;
 
     if(protect)

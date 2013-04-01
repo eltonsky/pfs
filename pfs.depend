@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1356244848 source:/home/eltonsky/cpp/pfs/main.cpp
+1364382802 source:/home/eltonsky/cpp/pfs/main.cpp
 	"Log.h"
 	"tinyxml2.h"
 	"INodeDirectory.h"
@@ -7,11 +7,13 @@
 	<stddef.h>
 	"FSImage.h"
 	"FSNameSystem.h"
+	<thread>
+	<iostream>
 
-1356236498 source:/home/eltonsky/cpp/pfs/src/Log.cpp
+1364816853 source:/home/eltonsky/cpp/pfs/src/Log.cpp
 	"Log.h"
 
-1356236539 source:/home/eltonsky/cpp/pfs/src/Config.cpp
+1357988535 source:/home/eltonsky/cpp/pfs/src/Config.cpp
 	"Config.h"
 
 1355027151 source:/home/eltonsky/cpp/pfs/src/tinyxml2.cpp
@@ -20,35 +22,86 @@
 	<stddef.h>
 	<cstddef>
 
-1356243533 source:/home/eltonsky/cpp/pfs/src/INode.cpp
+1358035157 source:/home/eltonsky/cpp/pfs/src/INode.cpp
 	"INode.h"
 
-1356240255 source:/home/eltonsky/cpp/pfs/src/INodeDirectory.cpp
+1364518236 source:/home/eltonsky/cpp/pfs/src/INodeDirectory.cpp
 	"INodeDirectory.h"
 
-1356133077 source:/home/eltonsky/cpp/pfs/src/INodeFile.cpp
+1358035803 source:/home/eltonsky/cpp/pfs/src/INodeFile.cpp
 	"INodeFile.h"
 
-1356132676 source:/home/eltonsky/cpp/pfs/src/Block.cpp
+1357434183 source:/home/eltonsky/cpp/pfs/src/Block.cpp
 	"Block.h"
 
-1355554246 source:/home/eltonsky/cpp/pfs/src/FSEditLog.cpp
+1364519174 source:/home/eltonsky/cpp/pfs/src/FSEditLog.cpp
 	"FSEditLog.h"
 
-1356244834 source:/home/eltonsky/cpp/pfs/src/FSNameSystem.cpp
+1357993384 source:/home/eltonsky/cpp/pfs/src/FSNameSystem.cpp
 	"FSNameSystem.h"
 
 1355651961 source:/home/eltonsky/cpp/pfs/src/DataNode.cpp
 	"DataNode.h"
 
-1356245891 source:/home/eltonsky/cpp/pfs/src/FSImage.cpp
+1364518963 source:/home/eltonsky/cpp/pfs/src/FSImage.cpp
 	"FSImage.h"
 
-1355652926 source:/home/eltonsky/cpp/pfs/src/INodeFileUnderConstruction.cpp
+1358037063 source:/home/eltonsky/cpp/pfs/src/INodeFileUnderConstruction.cpp
 	"INodeFileUnderConstruction.h"
 
-1356243507 source:/home/eltonsky/cpp/pfs/src/Permission.cpp
+1357969651 source:/home/eltonsky/cpp/pfs/src/Permission.cpp
 	"Permission.h"
 
 1356215209 source:/home/eltonsky/cpp/pfs/test.cpp
+
+1364817157 source:/home/eltonsky/cpp/pfs/src/Writable.cpp
+	"Writable.h"
+
+1364815821 source:/home/eltonsky/cpp/pfs/src/ClientProtocol.cpp
+	"ClientProtocol.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/BlockQueue.cpp
+	"BlockQueue.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/Utils.cpp
+	"Utils.h"
+	"unistd.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/IntWritable.cpp
+	"IntWritable.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Call.cpp
+	"Call.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Client.cpp
+	"Client.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Connection.cpp
+	"Connection.h"
+	"Call.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Handler.cpp
+	"Handler.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Invocation.cpp
+	"Invocation.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Listener.cpp
+	"Listener.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Method.cpp
+	"Method.h"
+	"NameNode.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/MethodWritable.cpp
+	"MethodWritable.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/RPC.cpp
+	"RPC.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Responder.cpp
+	"Responder.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Server.cpp
+	"Server.h"
 

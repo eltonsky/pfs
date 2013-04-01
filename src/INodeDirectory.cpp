@@ -78,7 +78,8 @@ INodeDirectory* INodeDirectory::getParent(string path, INodeDirectory* root) {
 }
 
 
-/*assume path.size() > 1
+/*
+assume path.size() > 1
 always start from root so far.
 */
 INodeDirectory* INodeDirectory::findByPath(string path, vector<short> pos, INodeDirectory* root){

@@ -4,7 +4,7 @@ void Log::init(string confFile)
 {
     string initFileName = confFile;
 
-        log4cpp::PropertyConfigurator::configure(initFileName);
+	log4cpp::PropertyConfigurator::configure(initFileName);
 }
 
 
@@ -154,7 +154,6 @@ inline void Log::getString(const char* format, va_list va, string& str) {
         delete [] buffer;
     }
 }
-
 
 
 void Log::simple(){

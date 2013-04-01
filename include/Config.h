@@ -2,6 +2,8 @@
 #include "tinyxml2.h"
 #include <boost/algorithm/string.hpp>
 #include <vector>
+#include <string>
+#include <memory>
 #include "Log.h"
 
 using namespace std;
@@ -23,7 +25,7 @@ class Config
         static const char* get(string names, char* attr);
 
     protected:
-        static vector<XMLDocument*> _docs;
+        static vector<shared_ptr<XMLDocument>> _docs;
 
     private:
         static XMLElement* _getElement(string names);

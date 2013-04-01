@@ -71,6 +71,7 @@ void FSEditLog::logSync() {
 
 }
 
+
 void FSEditLog::logEdit(stringstream* ss) {
     sem_wait(&_sem_log);
 

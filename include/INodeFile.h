@@ -9,22 +9,31 @@ class INodeFile : public INode
     public:
         INodeFile();
         INodeFile(string, short, long, int);
+        INodeFile(INodeFile*);
+        INodeFile(INodeFile& INodeFile);
+
+        INodeFile& operator = (INodeFile&);
+
         virtual ~INodeFile();
 
-        void addBlock(Block*);
-        void setBlock(int, Block*);
-        vector<Block*> getBlocks();
+        void addBlock(Block&);
+        void setBlock(int, Block&);
+        vector<Block> getBlocks();
 
         void spaceConsumed();
         void getLastBlock();
 
+        virtual void readFields(istream* is);
+        virtual void write(ostream* os) {INode::write(os);}
+
         bool isDirectory();
         bool isFile();
 
-    protected:
-        INode* parent; // must be a INodeDirectory
+        void print(bool);
 
-        vector<Block*> _blocks;
+    protected:
+
+        vector<Block> _blocks;
     private:
 };
 
