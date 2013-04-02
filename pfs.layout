@@ -28,14 +28,14 @@
 	<File name="include/INodeFileUnderConstruction.h" open="1" top="0" tabpos="14">
 		<Cursor position="1073" topLine="0" />
 	</File>
-	<File name="include/Log.h" open="0" top="0" tabpos="4">
-		<Cursor position="793" topLine="0" />
+	<File name="include/Log.h" open="1" top="0" tabpos="21">
+		<Cursor position="95" topLine="0" />
 	</File>
 	<File name="include/Permission.h" open="0" top="0" tabpos="16">
 		<Cursor position="324" topLine="0" />
 	</File>
-	<File name="include/Writable.h" open="0" top="0" tabpos="13">
-		<Cursor position="37" topLine="0" />
+	<File name="include/Writable.h" open="1" top="0" tabpos="19">
+		<Cursor position="1022" topLine="0" />
 	</File>
 	<File name="include/tinyxml2.h" open="0" top="0" tabpos="0">
 		<Cursor position="17204" topLine="632" />
@@ -52,8 +52,8 @@
 	<File name="src/FSEditLog.cpp" open="1" top="0" tabpos="13">
 		<Cursor position="273" topLine="0" />
 	</File>
-	<File name="src/FSImage.cpp" open="1" top="1" tabpos="9">
-		<Cursor position="6452" topLine="167" />
+	<File name="src/FSImage.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="6452" topLine="0" />
 	</File>
 	<File name="src/FSNameSystem.cpp" open="1" top="0" tabpos="11">
 		<Cursor position="163" topLine="0" />
@@ -70,14 +70,20 @@
 	<File name="src/INodeFileUnderConstruction.cpp" open="1" top="0" tabpos="15">
 		<Cursor position="843" topLine="0" />
 	</File>
-	<File name="src/Log.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="50" topLine="0" />
+	<File name="src/Log.cpp" open="1" top="0" tabpos="20">
+		<Cursor position="344" topLine="0" />
 	</File>
 	<File name="src/Permission.cpp" open="0" top="0" tabpos="17">
 		<Cursor position="112" topLine="0" />
 	</File>
-	<File name="src/Writable.cpp" open="0" top="0" tabpos="14">
-		<Cursor position="459" topLine="0" />
+	<File name="src/Writable.cpp" open="1" top="0" tabpos="18">
+		<Cursor position="2224" topLine="61" />
+	</File>
+	<File name="src/ipc/Call.cpp" open="1" top="0" tabpos="22">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src/ipc/Method.cpp" open="1" top="1" tabpos="23">
+		<Cursor position="825" topLine="0" />
 	</File>
 	<File name="src/tinyxml2.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="42258" topLine="1594" />

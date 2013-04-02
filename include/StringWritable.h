@@ -1,5 +1,6 @@
-#ifndef INTWRITABLE_H
-#define INTWRITABLE_H
+#ifndef STRINGWRITABLE_H
+#define STRINGWRITABLE_H
+
 
 #include <cstdlib>
 #include <stdio.h>
@@ -9,25 +10,27 @@
 #include <boost/asio.hpp>
 #include "Writable.h"
 
-using boost::asio::ip::tcp;
-using namespace std;
-
-class IntWritable : public Writable
+class StringWritable : public Writable
 {
     public:
-        IntWritable();
-        IntWritable(int v);
-        virtual ~IntWritable();
+        StringWritable();
+        StringWritable(string);
+        virtual ~StringWritable();
+
+
         virtual int readFields(tcp::socket * sock);
         virtual int write(tcp::socket * sock);
         virtual string toString();
         virtual string printToString();
-        virtual string getClass();
-        inline int get() {return _value;}
+
+        virtual inline string getClass() {return "StringWritable";}
+
+        inline string get() {return _value;}
 
     protected:
     private:
-        int _value;
+
+        string _value;
 };
 
-#endif // INTWRITABLE_H
+#endif // STRINGWRITABLE_H

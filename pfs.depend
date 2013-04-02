@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1364382802 source:/home/eltonsky/cpp/pfs/main.cpp
+1364895854 source:/home/eltonsky/cpp/pfs/main.cpp
 	"Log.h"
 	"tinyxml2.h"
 	"INodeDirectory.h"
@@ -49,7 +49,7 @@
 1358037063 source:/home/eltonsky/cpp/pfs/src/INodeFileUnderConstruction.cpp
 	"INodeFileUnderConstruction.h"
 
-1357969651 source:/home/eltonsky/cpp/pfs/src/Permission.cpp
+1364902353 source:/home/eltonsky/cpp/pfs/src/Permission.cpp
 	"Permission.h"
 
 1356215209 source:/home/eltonsky/cpp/pfs/test.cpp
@@ -57,7 +57,7 @@
 1364817157 source:/home/eltonsky/cpp/pfs/src/Writable.cpp
 	"Writable.h"
 
-1364815821 source:/home/eltonsky/cpp/pfs/src/ClientProtocol.cpp
+1364905761 source:/home/eltonsky/cpp/pfs/src/ClientProtocol.cpp
 	"ClientProtocol.h"
 
 1364816190 source:/home/eltonsky/cpp/pfs/src/BlockQueue.cpp
@@ -70,33 +70,33 @@
 1364816190 source:/home/eltonsky/cpp/pfs/src/IntWritable.cpp
 	"IntWritable.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Call.cpp
+1364906389 source:/home/eltonsky/cpp/pfs/src/ipc/Call.cpp
 	"Call.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Client.cpp
+1364906389 source:/home/eltonsky/cpp/pfs/src/ipc/Client.cpp
 	"Client.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Connection.cpp
+1364906389 source:/home/eltonsky/cpp/pfs/src/ipc/Connection.cpp
 	"Connection.h"
 	"Call.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Handler.cpp
+1364906722 source:/home/eltonsky/cpp/pfs/src/ipc/Handler.cpp
 	"Handler.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Invocation.cpp
+1364906389 source:/home/eltonsky/cpp/pfs/src/ipc/Invocation.cpp
 	"Invocation.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Listener.cpp
+1364906739 source:/home/eltonsky/cpp/pfs/src/ipc/Listener.cpp
 	"Listener.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Method.cpp
+1364897529 source:/home/eltonsky/cpp/pfs/src/ipc/Method.cpp
 	"Method.h"
 	"NameNode.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/MethodWritable.cpp
+1364906389 source:/home/eltonsky/cpp/pfs/src/ipc/MethodWritable.cpp
 	"MethodWritable.h"
 
-1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/RPC.cpp
+1364906389 source:/home/eltonsky/cpp/pfs/src/ipc/RPC.cpp
 	"RPC.h"
 
 1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Responder.cpp
@@ -104,4 +104,16 @@
 
 1364816190 source:/home/eltonsky/cpp/pfs/src/ipc/Server.cpp
 	"Server.h"
+
+1364816190 source:/home/eltonsky/cpp/pfs/src/DataNodeProtocol.cpp
+	"DataNodeProtocol.h"
+
+1364906692 source:/home/eltonsky/cpp/pfs/src/NameNode.cpp
+	"NameNode.h"
+
+1364906212 source:/home/eltonsky/cpp/pfs/src/DFSClient.cpp
+	"DFSClient.h"
+
+1364901385 source:/home/eltonsky/cpp/pfs/src/StringWritable.cpp
+	"StringWritable.h"
 

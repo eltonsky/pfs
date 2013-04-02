@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-Iinclude" />
+					<Add option="-Iinclude/ipc" />
 					<Add option="-std=c++11" />
 					<Add option="-O0" />
 				</Compiler>
@@ -21,6 +22,7 @@
 					<Add option="-lpthread" />
 					<Add option="-llog4cpp" />
 					<Add option="-lboost_thread" />
+					<Add option="-lboost_system" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -41,8 +43,11 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/Block.h" />
+		<Unit filename="include/BlockQueue.h" />
+		<Unit filename="include/ClientProtocol.h" />
 		<Unit filename="include/Config.h" />
 		<Unit filename="include/DataNode.h" />
+		<Unit filename="include/DataNodeProtocol.h" />
 		<Unit filename="include/FSEditLog.h" />
 		<Unit filename="include/FSImage.h" />
 		<Unit filename="include/FSNameSystem.h" />
@@ -50,14 +55,31 @@
 		<Unit filename="include/INodeDirectory.h" />
 		<Unit filename="include/INodeFile.h" />
 		<Unit filename="include/INodeFileUnderConstruction.h" />
+		<Unit filename="include/IntWritable.h" />
 		<Unit filename="include/Log.h" />
+		<Unit filename="include/NameNode.h" />
 		<Unit filename="include/Permission.h" />
+		<Unit filename="include/Utils.h" />
 		<Unit filename="include/Writable.h" />
+		<Unit filename="include/ipc/Call.h" />
+		<Unit filename="include/ipc/Client.h" />
+		<Unit filename="include/ipc/Connection.h" />
+		<Unit filename="include/ipc/Handler.h" />
+		<Unit filename="include/ipc/Invocation.h" />
+		<Unit filename="include/ipc/Listener.h" />
+		<Unit filename="include/ipc/Method.h" />
+		<Unit filename="include/ipc/MethodWritable.h" />
+		<Unit filename="include/ipc/RPC.h" />
+		<Unit filename="include/ipc/Responder.h" />
+		<Unit filename="include/ipc/Server.h" />
 		<Unit filename="include/tinyxml2.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Block.cpp" />
+		<Unit filename="src/BlockQueue.cpp" />
+		<Unit filename="src/ClientProtocol.cpp" />
 		<Unit filename="src/Config.cpp" />
 		<Unit filename="src/DataNode.cpp" />
+		<Unit filename="src/DataNodeProtocol.cpp" />
 		<Unit filename="src/FSEditLog.cpp" />
 		<Unit filename="src/FSImage.cpp" />
 		<Unit filename="src/FSNameSystem.cpp" />
@@ -65,9 +87,23 @@
 		<Unit filename="src/INodeDirectory.cpp" />
 		<Unit filename="src/INodeFile.cpp" />
 		<Unit filename="src/INodeFileUnderConstruction.cpp" />
+		<Unit filename="src/IntWritable.cpp" />
 		<Unit filename="src/Log.cpp" />
+		<Unit filename="src/NameNode.cpp" />
 		<Unit filename="src/Permission.cpp" />
+		<Unit filename="src/Utils.cpp" />
 		<Unit filename="src/Writable.cpp" />
+		<Unit filename="src/ipc/Call.cpp" />
+		<Unit filename="src/ipc/Client.cpp" />
+		<Unit filename="src/ipc/Connection.cpp" />
+		<Unit filename="src/ipc/Handler.cpp" />
+		<Unit filename="src/ipc/Invocation.cpp" />
+		<Unit filename="src/ipc/Listener.cpp" />
+		<Unit filename="src/ipc/Method.cpp" />
+		<Unit filename="src/ipc/MethodWritable.cpp" />
+		<Unit filename="src/ipc/RPC.cpp" />
+		<Unit filename="src/ipc/Responder.cpp" />
+		<Unit filename="src/ipc/Server.cpp" />
 		<Unit filename="src/tinyxml2.cpp" />
 		<Extensions>
 			<code_completion />

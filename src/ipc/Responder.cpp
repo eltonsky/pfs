@@ -1,6 +1,6 @@
 #include "Responder.h"
 
-namespace Server{
+namespace Ipc{
 
     const int max_repsond_size = 100;
     BlockQueue<shared_ptr<tcp::endpoint>> _bq_respond(max_repsond_size);
@@ -13,7 +13,7 @@ namespace Server{
 
 
     void Responder::start() {
-        _t_responder = boost::thread(boost::bind(&Server::Responder::respond, this));
+        _t_responder = boost::thread(boost::bind(&Ipc::Responder::respond, this));
     }
 
 

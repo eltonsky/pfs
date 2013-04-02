@@ -18,7 +18,7 @@
 
 using boost::asio::ip::tcp;
 
-namespace Server {
+namespace Ipc {
 
 class Listener
 {
@@ -146,7 +146,7 @@ class Listener
             }
 
             void run() {
-                _t_reader = boost::thread(boost::bind(&Server::Listener::Reader::start, this));
+                _t_reader = boost::thread(boost::bind(&Ipc::Listener::Reader::start, this));
             }
 
             void start() {

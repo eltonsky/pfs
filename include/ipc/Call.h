@@ -16,7 +16,7 @@
 using namespace std;
 using boost::asio::ip::tcp;
 
-namespace Server{
+namespace Ipc{
 
     class Connection;
 

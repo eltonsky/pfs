@@ -1,7 +1,7 @@
 #include "Connection.h"
 #include "Call.h"
 
-namespace Server{
+namespace Ipc{
 
     int _last_connection_index;
     std::mutex _mutex_conns;

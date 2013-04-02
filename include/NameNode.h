@@ -9,23 +9,28 @@
 #include <memory>
 #include "Log.h"
 #include "DataNodeProtocol.h"
+#include "ClientProtocol.h"
+#include "ipc/Server.h"
 
-class NameNode : DataNodeProtocol{
+class NameNode : public DataNodeProtocol, public ClientProtocol {
     public:
 
-    NameNode();
+    NameNode(int rpcPort);
     ~NameNode();
 
-    virtual shared_ptr<Writable> create(shared_ptr<IntWritable> Arg0,
-                                        shared_ptr<IntWritable> Arg1,
-                                        shared_ptr<IntWritable> Arg2,
-                                        shared_ptr<IntWritable> Arg3) {
-        int res = Arg0->get() + Arg1->get() + Arg2->get() + Arg3->get();
+    void start();
 
-        return make_shared<IntWritable>(res);
-    }
+    void close();
+
+    virtual shared_ptr<Writable> create(shared_ptr<StringWritable> path,
+                                            shared_ptr<IntWritable> rep,
+                                            shared_ptr<Permission> perm);
 
     //...
+
+    private:
+        Ipc::Server _rpcServer;
+
 
 };
 

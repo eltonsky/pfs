@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace Server{
+namespace Ipc{
 
     extern BlockQueue<shared_ptr<tcp::endpoint>> _bq_respond;
     const int _resp_wait_time = 100;

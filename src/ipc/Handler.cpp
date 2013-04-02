@@ -2,7 +2,7 @@
 
 using namespace std;
 
-namespace Server {
+namespace Ipc {
 
     const int max_num_calls = 100;
     BlockQueue<std::shared_ptr<Call>> _bq_call(max_num_calls);
@@ -14,7 +14,7 @@ namespace Server {
 
 
     void Handler::start() {
-        _t_handler = boost::thread(boost::bind(&Server::Handler::handle, this));
+        _t_handler = boost::thread(boost::bind(&Ipc::Handler::handle, this));
     }
 
 

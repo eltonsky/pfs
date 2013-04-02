@@ -3,7 +3,7 @@
 using boost::asio::ip::tcp;
 using namespace std;
 
-namespace Server {
+namespace Ipc {
 
     Listener::Listener(int port) :
         _acceptor(_io_service_listener,tcp::endpoint(tcp::v4(), port))  {
@@ -25,7 +25,7 @@ namespace Server {
             _readers[i].get()->run();
         }
 
-        _t_listener = boost::thread(boost::bind(&Server::Listener::start,this));
+        _t_listener = boost::thread(boost::bind(&Ipc::Listener::start,this));
 
         _t_listener.join();
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI verified="false" xmi.version="1.2" timestamp="2013-04-01T22:33:15" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
+<XMI verified="false" xmi.version="1.2" timestamp="2013-04-02T21:11:08" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller http://uml.sf.net</XMI.exporter>
@@ -52,12 +52,12 @@
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="509" showstereotype="1" y="351" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="166" isinstance="0" usefillcolor="1" fillcolor="none" activityname="start dataStream thread" xmi.id="rxXiX9y9jxmT" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="858" showstereotype="1" y="143" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="144" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check if in safemode" xmi.id="2fFx3CD6vV1Q" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="849" showstereotype="1" y="242" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="176" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check if exists and is a dir" xmi.id="Rg9HFEh49Cmg" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
-         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="836" showstereotype="1" y="337" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="218" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check if exists as a file and lease" xmi.id="Mln3iXWjCmgF" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
-         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="876" showstereotype="1" y="429" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="122" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check replication" xmi.id="wrJrNKHmzO1C" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="801" showstereotype="1" y="338" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="318" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check if exists as a file and lease is in other client" xmi.id="Mln3iXWjCmgF" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="876" showstereotype="1" y="429" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="161" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check replication range" xmi.id="wrJrNKHmzO1C" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="826" showstereotype="1" y="508" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="275" isinstance="0" usefillcolor="1" fillcolor="none" activityname="create INodeUnderConstruction, add to dir" xmi.id="biGku0PElCHS" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="913" showstereotype="1" y="601" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="78" isinstance="0" usefillcolor="1" fillcolor="none" activityname="addLease" xmi.id="km9wWnASdRH0" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
          <boxwidget width="337" showstereotype="1" x="790" usesdiagramusefillcolor="1" y="127" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="518" linecolor="#000000" xmi.id="9bYtlpJVZQQ5" textcolor="#000000" usefillcolor="1" linewidth="none" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
-         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="791" showstereotype="1" y="82" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="151" isinstance="0" usefillcolor="1" fillcolor="none" activityname="fsnamesyatem.create" xmi.id="DYVqzkojGWQ7" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="791" showstereotype="1" y="82" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="161" isinstance="0" usefillcolor="1" fillcolor="none" activityname="fsnamesyatem.startFile" xmi.id="DYVqzkojGWQ7" postcondition="" documentation="" activitytype="1" height="32" precondition=""/>
         </widgets>
         <messages/>
         <associations>
@@ -94,12 +94,12 @@
          <assocwidget roleBdoc="" linecolor="none" indexa="1" usesdiagramfillcolor="1" widgetbid="Mln3iXWjCmgF" indexb="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="Rg9HFEh49Cmg" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="0" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="515">
           <linepath>
            <startpoint startx="849" starty="274"/>
-           <endpoint endx="849" endy="337"/>
+           <endpoint endx="849" endy="338"/>
           </linepath>
          </assocwidget>
          <assocwidget roleBdoc="" linecolor="none" indexa="1" usesdiagramfillcolor="0" widgetbid="wrJrNKHmzO1C" indexb="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" totalcounta="2" totalcountb="2" widgetaid="Mln3iXWjCmgF" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="1" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
           <linepath>
-           <startpoint startx="876" starty="369"/>
+           <startpoint startx="876" starty="370"/>
            <endpoint endx="876" endy="429"/>
           </linepath>
          </assocwidget>
@@ -135,7 +135,7 @@
          </assocwidget>
         </associations>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="10" showattribassocs="1" snapy="10" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="LeaseChecker" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="908" canvaswidth="1587" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#808080" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="piov0LWq85Aa" documentation="" showscope="1" snapgrid="0" showatts="1" type="6">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="10" showattribassocs="1" snapy="10" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="LeaseChecker" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="903" canvaswidth="1210" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#808080" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="piov0LWq85Aa" documentation="" showscope="1" snapgrid="0" showatts="1" type="6">
         <widgets>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="165" showstereotype="1" y="96" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="15" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="1YWd8In4UFXJ" postcondition="" documentation="" activitytype="0" height="15" precondition=""/>
          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="#000000" usesdiagramusefillcolor="1" x="14" showstereotype="1" y="12" text="DFSClient : " font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="78" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="AE65lwxYejUe" height="18"/>

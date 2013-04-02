@@ -50,37 +50,37 @@ int main(int argc, char** argv) {
     //start head node
     FSNameSystem::getFSNamesystem().initialize();
 
-    FSNameSystem::getFSNamesystem().saveNameSpace();
+//    FSNameSystem::getFSNamesystem().saveNameSpace();
 
     FSNameSystem::getFSNamesystem().loadNameSpace();
 
-/**/
-INodeFileUnderConstruction fileUnder("/d1/f99", 3, 1223343,2048,1,3);
-Block blk(999,222999,991234567);
-fileUnder.addBlock(blk);
-FSNameSystem::getFSNamesystem().getEditLog()->logOpenFile(fileUnder.getPath(),fileUnder);
+///**/
+//INodeFileUnderConstruction fileUnder("/d1/f99", 3, 1223343,2048,1,3);
+//Block blk(999,222999,991234567);
+//fileUnder.addBlock(blk);
+//FSNameSystem::getFSNamesystem().getEditLog()->logOpenFile(fileUnder.getPath(),fileUnder);
+//
+//INodeFile file("/f101", 3, 1024, 2);
+//Block blk01(10011,2222,12345671);
+//file.addBlock(blk01);
+//Block blk02(10013,2223,12345673);
+//file.addBlock(blk02);
+//FSNameSystem::getFSNamesystem().getEditLog()->logCloseFile(file.getPath(),file);
+//
+//INodeFileUnderConstruction fileUnder1("/d1/f100", 4,555555,4048,1,5);
+//Block blk1(1099,102999,881234567);
+//fileUnder1.addBlock(blk1);
+//FSNameSystem::getFSNamesystem().getEditLog()->logOpenFile(fileUnder1.getPath(),fileUnder1);
+//
+//
+//FSNameSystem::getFSNamesystem().getEditLog()->logSync();
+//
+//FSNameSystem::getFSNamesystem().getEditLog()->close();
+///**/
+//
+//    FSNameSystem::getFSNamesystem().getEditLog()->loadEdits();
+//
 
-INodeFile file("/f101", 3, 1024, 2);
-Block blk01(10011,2222,12345671);
-file.addBlock(blk01);
-Block blk02(10013,2223,12345673);
-file.addBlock(blk02);
-FSNameSystem::getFSNamesystem().getEditLog()->logCloseFile(file.getPath(),file);
-
-INodeFileUnderConstruction fileUnder1("/d1/f100", 4,555555,4048,1,5);
-Block blk1(1099,102999,881234567);
-fileUnder1.addBlock(blk1);
-FSNameSystem::getFSNamesystem().getEditLog()->logOpenFile(fileUnder1.getPath(),fileUnder1);
-
-
-FSNameSystem::getFSNamesystem().getEditLog()->logSync();
-
-FSNameSystem::getFSNamesystem().getEditLog()->close();
-/**/
-
-//    FSNameSystem::getFSNamesystem().getEditLog()->logSync();
-
-    FSNameSystem::getFSNamesystem().getEditLog()->loadEdits();
 
     FSNameSystem::getFSNamesystem().getFSImage()->getRoot()->print(true);
 

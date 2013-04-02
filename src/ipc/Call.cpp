@@ -1,6 +1,6 @@
 #include "Call.h"
 
-namespace Server {
+namespace Ipc {
     const int recheck_interval = 100;
 
     ////Call
@@ -10,6 +10,7 @@ namespace Server {
     }
 
     Call::Call(shared_ptr<Connection> conn) : _connection(conn) {
+
     }
 
 
